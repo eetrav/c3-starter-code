@@ -44,11 +44,12 @@ def process_data(
         passed in.
     """
 
-    if label is not None:
+    try:
         y = X[label]
         X = X.drop([label], axis=1)
-    else:
-        y = np.array([])
+    except KeyError as err:
+        print("Target label not found in dataframe.")
+        raise err
 
     X_categorical = X[categorical_features].values
     X_continuous = X.drop(*[categorical_features], axis=1)
