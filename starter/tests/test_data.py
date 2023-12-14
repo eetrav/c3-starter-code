@@ -27,6 +27,7 @@ def test_target_column(messy_data: pd.DataFrame):
 
     train, test = train_test_split(messy_data, test_size=0.20)
 
-    X_train, y_train, encoder, lb = process_data(
-        train, categorical_features=cat_features, label="salary", training=True
-    )
+    with pytest.raises(KeyError):
+        X_train, y_train, encoder, lb = process_data(
+            train, categorical_features=cat_features, label="salary", training=True
+        )
