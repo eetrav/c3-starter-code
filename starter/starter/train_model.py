@@ -26,6 +26,7 @@ cat_features = [
     "race",
     "sex",
     "native-country",
+    "fake-feature"
 ]
 
 # Process the training data with the process_data function.
