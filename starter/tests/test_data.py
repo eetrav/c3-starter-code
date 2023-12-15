@@ -1,5 +1,6 @@
 import pandas as pd
 from pandas.api.types import is_string_dtype
+import pytest
 from sklearn.model_selection import train_test_split
 
 from starter.starter.ml.data import process_data
