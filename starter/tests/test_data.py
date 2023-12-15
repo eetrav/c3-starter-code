@@ -26,7 +26,7 @@ def test_target_column(messy_data: pd.DataFrame):
         "fake-feature"
     ]
 
-    train, test = train_test_split(messy_data, test_size=0.20)
+    train, _ = train_test_split(messy_data, test_size=0.20)
 
     with pytest.raises(KeyError):
         X_train, y_train, encoder, lb = process_data(

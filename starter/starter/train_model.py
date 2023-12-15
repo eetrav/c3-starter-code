@@ -1,4 +1,6 @@
 # Script to train machine learning model.
+import joblib
+
 import pandas as pd
 
 from sklearn.linear_model import LogisticRegressionCV
@@ -42,6 +44,8 @@ X_test, y_test, encoder, lb = process_data(
 
 # Train the model
 model = train_model(X_train, y_train)
+
+joblib.dump(model, "test_model.pkl")
 
 # Perform inference on the trained model
 preds = inference(model, X_test)
