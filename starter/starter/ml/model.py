@@ -30,6 +30,11 @@ def train_model(X_train: np.ndarray, y_train: np.ndarray):
         Trained machine learning model.
     """
 
+    # Check that target values are binary
+    # https://stackoverflow.com/questions/40595967/
+    if ~((y_train == 0) | (y_train == 1)).all():
+        raise ValueError
+
     # From scikit-learn LogisticRegressionCV documentation:
     # ‘newton-cholesky’ is a good choice for n_samples >> n_features,
     # especially with one-hot encoded categorical features with rare categories.
