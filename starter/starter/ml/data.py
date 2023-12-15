@@ -44,13 +44,11 @@ def process_data(
         passed in.
     """
 
-    if training:
-        try:
-            y = X[label]
-        except KeyError as err:
-            print("Valid target label required for training.")
-            raise err
-    X = X.drop([label], axis=1)
+    if label is not None:
+        y = X[label]
+        X = X.drop([label], axis=1)
+    else:
+        y = np.array([])
 
     X_categorical = X[categorical_features].values
     X_continuous = X.drop(*[categorical_features], axis=1)
@@ -62,7 +60,11 @@ def process_data(
         y = lb.fit_transform(y.values).ravel()
     else:
         X_categorical = encoder.transform(X_categorical)
-        y = lb.transform(y.values).ravel()
+        try:
+            y = lb.transform(y.values).ravel()
+        # Catch the case where y is None because we're doing inference.
+        except AttributeError:
+            pass
 
     X = np.concatenate([X_continuous, X_categorical], axis=1)
     return X, y, encoder, lb
