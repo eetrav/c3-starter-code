@@ -1,4 +1,5 @@
 import numpy as np
+from pandas.api.types import is_numeric_dtype
 from sklearn.preprocessing import LabelBinarizer, OneHotEncoder
 
 
@@ -52,6 +53,10 @@ def process_data(
 
     X_categorical = X[categorical_features].values
     X_continuous = X.drop(*[categorical_features], axis=1)
+
+    for col in X_continuous.columns:
+        if ~is_numeric_dtype(X_continuous[col]):
+            raise ValueError
 
     if training is True:
         encoder = OneHotEncoder(sparse=False, handle_unknown="ignore")

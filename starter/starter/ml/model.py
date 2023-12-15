@@ -77,9 +77,9 @@ def inference(model: LogisticRegressionCV, x_test: np.ndarray):
 
     Inputs
     ------
-    model : sklearn.linear_model.base.LinearRegressionCV
+    model : sklearn.linear_model.base.LogisticRegressionCV
         Trained machine learning model.
-    X : np.array
+    x-test : np.array
         Data used for prediction.
 
     Returns
