@@ -22,6 +22,18 @@ def test_nonexistent_column_raises_KeyError(clean_data: pd.DataFrame,
         data (pd.DataFrame): Input dataframe for rental pricing.
     """
 
+    cat_features = [
+        "workclass",
+        "education",
+        "marital-status",
+        "occupation",
+        "relationship",
+        "race",
+        "sex",
+        "native-country",
+        "fake-column"
+    ]
+
     train, _ = train_test_split(clean_data, test_size=0.20)
 
     with pytest.raises(KeyError):
@@ -30,7 +42,8 @@ def test_nonexistent_column_raises_KeyError(clean_data: pd.DataFrame,
         )
 
 
-def test_nonbinary_target_raises_ValueError(clean_data: pd.DataFrame):
+def test_nonbinary_target_raises_ValueError(clean_data: pd.DataFrame,
+                                            cat_features: list):
     """
     Function to test that expected columns are present in the dataframe.
 
