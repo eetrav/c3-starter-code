@@ -100,6 +100,7 @@ def test_predictions_type(clean_data: pd.DataFrame, cat_features: list,
     """
 
     # Process the test data with the process_data function.
+    print("clean data type:", type(clean_data))
     X_test, y_test, encoder, lb = process_data(
         clean_data, categorical_features=cat_features, label="salary",
         training=False, encoder=encoder_lb['encoder'], lb=encoder_lb['lb']
