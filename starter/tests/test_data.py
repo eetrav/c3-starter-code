@@ -1,34 +1,26 @@
 import joblib
 
+import numpy as np
 import pandas as pd
 from pandas.api.types import is_string_dtype
 import pytest
 from sklearn.pipeline import Pipeline
 from sklearn.model_selection import train_test_split
 
+from starter.starter.ml.model import inference, compute_model_metrics
+
 from starter.starter.ml.data import process_data
 from starter.starter.ml.model import train_model
 
 
-def test_nonexistent_column_raises_KeyError(clean_data: pd.DataFrame):
+def test_nonexistent_column_raises_KeyError(clean_data: pd.DataFrame,
+                                            cat_features: list):
     """
     Function to test that expected columns are present in the dataframe.
 
     Args:
         data (pd.DataFrame): Input dataframe for rental pricing.
     """
-
-    cat_features = [
-        "workclass",
-        "education",
-        "marital-status",
-        "occupation",
-        "relationship",
-        "race",
-        "sex",
-        "native-country",
-        "fake-feature"
-    ]
 
     train, _ = train_test_split(clean_data, test_size=0.20)
 
@@ -46,17 +38,6 @@ def test_nonbinary_target_raises_ValueError(clean_data: pd.DataFrame):
         data (pd.DataFrame): Input dataframe for rental pricing.
     """
 
-    cat_features = [
-        "workclass",
-        "education",
-        "marital-status",
-        "occupation",
-        "relationship",
-        "race",
-        "sex",
-        "native-country"
-    ]
-
     train, _ = train_test_split(clean_data, test_size=0.20)
 
     X_train, y_train, _, _ = process_data(
@@ -69,23 +50,13 @@ def test_nonbinary_target_raises_ValueError(clean_data: pd.DataFrame):
         train_model(X_train, y_train)
 
 
-def check_cat_columns(clean_data: pd.DataFrame):
+def check_cat_columns(clean_data: pd.DataFrame, cat_features: list):
     """
     Function to test that expected columns are present in the dataframe.
 
     Args:
         data (pd.DataFrame): Input dataframe for rental pricing.
     """
-
-    cat_features = [
-        "workclass",
-        "education",
-        "marital-status",
-        "occupation",
-        "relationship",
-        "race",
-        "sex"
-    ]
 
     train, _ = train_test_split(clean_data, test_size=0.20)
 
@@ -104,3 +75,23 @@ def test_model_type(trained_model: Pipeline):
     """
 
     assert isinstance(trained_model, Pipeline)
+
+
+def test_predictions_type(clean_data: pd.DataFrame, cat_features: list,
+                          trained_model: Pipeline, encoder_lb: dict):
+    """
+    Function to test that expected columns are present in the dataframe.
+
+    Args:
+        data (pd.DataFrame): Input dataframe for rental pricing.
+    """
+
+    # Process the test data with the process_data function.
+    X_test, y_test, encoder, lb = process_data(
+        clean_data, categorical_features=cat_features, label="salary",
+        training=False, encoder=encoder_lb['encoder'], lb=encoder_lb['lb']
+    )
+
+    preds = inference(trained_model, X_test)
+
+    assert isinstance(preds, np.ndarray)
