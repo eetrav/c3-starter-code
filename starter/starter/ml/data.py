@@ -55,7 +55,8 @@ def process_data(
     X_continuous = X.drop(*[categorical_features], axis=1)
 
     for col in X_continuous.columns:
-        if ~is_numeric_dtype(X_continuous[col]):
+        if not is_numeric_dtype(X_continuous[col]):
+            print(col, "is neither categorical nor numeric!")
             raise ValueError
 
     if training is True:

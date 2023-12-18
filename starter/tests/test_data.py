@@ -3,6 +3,7 @@ import joblib
 import pandas as pd
 from pandas.api.types import is_string_dtype
 import pytest
+from sklearn.pipeline import Pipeline
 from sklearn.model_selection import train_test_split
 
 from starter.starter.ml.data import process_data
@@ -69,7 +70,7 @@ def test_nonbinary_target_raises_ValueError(clean_data: pd.DataFrame):
 
 
 def check_cat_columns(clean_data: pd.DataFrame):
-      """
+    """
     Function to test that expected columns are present in the dataframe.
 
     Args:
@@ -91,4 +92,15 @@ def check_cat_columns(clean_data: pd.DataFrame):
     with pytest.raises(ValueError):
         process_data(
             train, categorical_features=cat_features, label="salary", training=True
-        )  
+        )
+
+
+def test_model_type(trained_model: Pipeline):
+    """
+    Function to test that expected columns are present in the dataframe.
+
+    Args:
+        data (pd.DataFrame): Input dataframe for rental pricing.
+    """
+
+    assert isinstance(trained_model, Pipeline)

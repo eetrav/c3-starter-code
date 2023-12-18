@@ -41,11 +41,14 @@ X_test, y_test, encoder, lb = process_data(
 
 # Train the model
 model = train_model(X_train, y_train)
+print(type(model))
 
 # Perform inference on the trained model
 preds = inference(model, X_test)
+print(type(preds))
 
 # Compute model metrics
 precision, recall, fbeta = compute_model_metrics(y_test, preds)
 
 print(precision, recall, fbeta)
+print(type((precision, recall, fbeta)))
