@@ -58,11 +58,14 @@ def predictions(clean_data: pd.DataFrame, cat_features: list,
                 trained_model: Pipeline, encoder_lb: dict):
 
     X_test, _, _, _ = process_data(
-        clean_data, categorical_features=cat_features, label="salary",
-        training=False, encoder=encoder_lb['encoder'], lb=encoder_lb['lb']
+        clean_data,
+        categorical_features=cat_features,
+        label="salary",
+        training=False,
+        encoder=encoder_lb['encoder'],
+        lb=encoder_lb['lb']
     )
 
-    print(X_test)
     print(X_test.shape)
     preds = inference(trained_model, X_test)
 
