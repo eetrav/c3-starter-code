@@ -4,7 +4,7 @@ import pytest
 
 from sklearn.pipeline import Pipeline
 from starter.starter.ml.data import process_data
-from starter.starter.ml.model import inference
+from starter.starter.ml.model import inference, compute_model_metrics
 
 
 @pytest.fixture(scope='session', name='clean_data')
@@ -53,11 +53,11 @@ def fixture_trained_model():
     return model
 
 
-@pytest.fixture(scope='session')
-def predictions(clean_data: pd.DataFrame, cat_features: list,
-                trained_model: Pipeline, encoder_lb: dict):
+@pytest.fixture(scope='session', name='test_data')
+def fixture_test_data(clean_data: pd.DataFrame, cat_features: list,
+                      trained_model: Pipeline, encoder_lb: dict):
 
-    X_test, _, _, _ = process_data(
+    X_test, y_test, _, _ = process_data(
         clean_data,
         categorical_features=cat_features,
         label="salary",
@@ -66,7 +66,21 @@ def predictions(clean_data: pd.DataFrame, cat_features: list,
         lb=encoder_lb['lb']
     )
 
-    print(X_test.shape)
-    preds = inference(trained_model, X_test)
+    return {'X_test': X_test, 'y_test': y_test}
+
+
+@pytest.fixture(scope='session', name='preds')
+def fixture_preds(trained_model: Pipeline, test_data: dict):
+
+    preds = inference(trained_model, test_data['X_test'])
 
     return preds
+
+
+@pytest.fixture(scope='session')
+def metrics(test_data: dict, preds: np.ndarray):
+
+    precision, recall, fbeta = compute_model_metrics(test_data['y_test'],
+                                                     preds)
+
+    return [precision, recall, fbeta]

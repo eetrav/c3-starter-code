@@ -99,3 +99,8 @@ def test_predictions_type(predictions: np.ndarray):
     """
 
     assert isinstance(predictions, np.ndarray)
+
+
+def test_metrics_types(metrics: list):
+
+    assert all(isinstance(x, float) for x in metrics)
