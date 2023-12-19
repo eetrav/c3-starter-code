@@ -5,6 +5,7 @@ import pandas as pd
 from pandas.api.types import is_string_dtype
 import pytest
 from sklearn.model_selection import train_test_split
+from sklearn.pipeline import Pipeline
 
 from starter.starter.ml.model import compute_model_metrics
 
