@@ -90,7 +90,7 @@ def test_model_type(trained_model: Pipeline):
     assert isinstance(trained_model, Pipeline)
 
 
-def test_predictions_type(predictions: np.ndarray):
+def test_predictions_type(preds: np.ndarray):
     """
     Function to test that expected columns are present in the dataframe.
 
@@ -98,7 +98,7 @@ def test_predictions_type(predictions: np.ndarray):
         data (pd.DataFrame): Input dataframe for rental pricing.
     """
 
-    assert isinstance(predictions, np.ndarray)
+    assert isinstance(preds, np.ndarray)
 
 
 def test_metrics_types(metrics: list):
