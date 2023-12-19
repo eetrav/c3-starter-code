@@ -2,7 +2,7 @@ import numpy as np
 
 from sklearn.linear_model import LogisticRegressionCV
 from sklearn.metrics import fbeta_score, precision_score, recall_score
-from sklearn.pipeline import make_pipeline
+from sklearn.pipeline import make_pipeline, Pipeline
 from sklearn.preprocessing import StandardScaler
 
 # Optional: implement hyperparameter tuning.
@@ -71,14 +71,13 @@ def compute_model_metrics(y: np.ndarray, preds: np.ndarray):
     return precision, recall, fbeta
 
 
-def inference(model: LogisticRegressionCV, x_test: np.ndarray):
+def inference(model: Pipeline, x_test: np.ndarray):
     """
     Run model inferences and return the predictions.
 
     Inputs
     ------
-    model : sklearn.linear_model.base.LogisticRegressionCV
-        Trained machine learning model.
+    model : Trained sklearn.pipeline using sklearn LogisticRegressionCV
     x-test : np.array
         Data used for prediction.
 
