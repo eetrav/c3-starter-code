@@ -10,7 +10,7 @@ from starter.starter.ml.model import inference
 @pytest.fixture(scope='session', name='clean_data')
 def fixture_clean_data():
 
-    df = pd.read_csv("./starter/tests/clean_data_sample.csv")
+    df = pd.read_csv("./starter/data/census_cleaned.csv")
 
     return df
 
