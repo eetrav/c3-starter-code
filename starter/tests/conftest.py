@@ -31,7 +31,7 @@ def fixture_cat_features():
 
 
 @pytest.fixture(scope='session')
-def encoder_lb(cat_features: list):
+def encoder_lb(clean_data: pd.DataFrame, cat_features: list):
     # Process the training data with the process_data function.
     X_train, y_train, encoder, lb = process_data(
         clean_data,
