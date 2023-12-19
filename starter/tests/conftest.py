@@ -2,11 +2,13 @@ import joblib
 import pandas as pd
 import pytest
 
+from sklearn.pipeline import Pipeline
 from starter.starter.ml.data import process_data
+from starter.starter.ml.model import inference
 
 
-@pytest.fixture(scope='session')
-def clean_data():
+@pytest.fixture(scope='session', name='clean_data')
+def fixture_clean_data():
 
     df = pd.read_csv("./starter/tests/clean_data_sample.csv")
 
@@ -30,10 +32,10 @@ def fixture_cat_features():
     return cat_features
 
 
-@pytest.fixture(scope='session')
-def encoder_lb(clean_data: pd.DataFrame, cat_features: list):
+@pytest.fixture(scope='session', name='encoder_lb')
+def fixture_encoder_lb(clean_data: pd.DataFrame, cat_features: list):
     # Process the training data with the process_data function.
-    X_train, y_train, encoder, lb = process_data(
+    _, _, encoder, lb = process_data(
         clean_data,
         categorical_features=cat_features,
         label="salary",
@@ -43,9 +45,25 @@ def encoder_lb(clean_data: pd.DataFrame, cat_features: list):
     return {'encoder': encoder, 'lb': lb}
 
 
-@pytest.fixture(scope='session')
-def trained_model():
+@pytest.fixture(scope='session', name='trained_model')
+def fixture_trained_model():
 
     model = joblib.load("./starter/tests/test_model.pkl")
 
     return model
+
+
+@pytest.fixture(scope='session')
+def predictions(clean_data: pd.DataFrame, cat_features: list,
+                trained_model: Pipeline, encoder_lb: dict):
+
+    X_test, _, _, _ = process_data(
+        clean_data, categorical_features=cat_features, label="salary",
+        training=False, encoder=encoder_lb['encoder'], lb=encoder_lb['lb']
+    )
+
+    print(X_test)
+    print(X_test.shape)
+    preds = inference(trained_model, X_test)
+
+    return preds

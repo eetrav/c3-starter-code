@@ -4,10 +4,9 @@ import numpy as np
 import pandas as pd
 from pandas.api.types import is_string_dtype
 import pytest
-from sklearn.pipeline import Pipeline
 from sklearn.model_selection import train_test_split
 
-from starter.starter.ml.model import inference, compute_model_metrics
+from starter.starter.ml.model import compute_model_metrics
 
 from starter.starter.ml.data import process_data
 from starter.starter.ml.model import train_model
@@ -90,8 +89,7 @@ def test_model_type(trained_model: Pipeline):
     assert isinstance(trained_model, Pipeline)
 
 
-def test_predictions_type(clean_data: pd.DataFrame, cat_features: list,
-                          trained_model: Pipeline, encoder_lb: dict):
+def test_predictions_type(predictions: np.ndarray):
     """
     Function to test that expected columns are present in the dataframe.
 
@@ -99,13 +97,4 @@ def test_predictions_type(clean_data: pd.DataFrame, cat_features: list,
         data (pd.DataFrame): Input dataframe for rental pricing.
     """
 
-    # Process the test data with the process_data function.
-    print("clean data type:", type(clean_data))
-    X_test, y_test, encoder, lb = process_data(
-        clean_data, categorical_features=cat_features, label="salary",
-        training=False, encoder=encoder_lb['encoder'], lb=encoder_lb['lb']
-    )
-
-    preds = inference(trained_model, X_test)
-
-    assert isinstance(preds, np.ndarray)
+    assert isinstance(predictions, np.ndarray)
