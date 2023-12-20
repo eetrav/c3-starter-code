@@ -1,11 +1,14 @@
-# Script to train machine learning model.
+"""
+Script to train machine learning model.
+
+Author: Emily Travinsky
+Date: 12/2023
+"""
+
 import joblib
 import pandas as pd
 
-from sklearn.linear_model import LogisticRegressionCV
 from sklearn.model_selection import train_test_split
-from sklearn.pipeline import make_pipeline
-from sklearn.preprocessing import StandardScaler
 
 from ml.data import process_data
 from ml.model import train_model, inference, compute_model_metrics

@@ -1,3 +1,10 @@
+"""
+Python module with functionality to train and test ML models to predict salary.
+
+Author: Emily Travinsky
+Date: 12/2023
+"""
+
 import numpy as np
 
 from sklearn.linear_model import LogisticRegressionCV
@@ -8,7 +15,7 @@ from sklearn.preprocessing import StandardScaler
 # Optional: implement hyperparameter tuning.
 
 
-def train_model(X_train: np.ndarray, y_train: np.ndarray):
+def train_model(x_train: np.ndarray, y_train: np.ndarray) -> Pipeline:
     """
     Trains a Logistic Regression model and returns it.
 
@@ -19,14 +26,14 @@ def train_model(X_train: np.ndarray, y_train: np.ndarray):
 
     Inputs
     ------
-    X_train : np.array
+    x_train (np.ndarray) : np.array
         Training data.
-    y_train : np.array
+    y_train (np.ndarray) : np.array
         Labels.
 
     Returns
     -------
-    model
+    model (Pipeline) :
         Trained machine learning model.
     """
 
@@ -41,7 +48,7 @@ def train_model(X_train: np.ndarray, y_train: np.ndarray):
     pipe = make_pipeline(
         StandardScaler(), LogisticRegressionCV(solver="newton-cholesky"))
 
-    pipe.fit(X_train, y_train)
+    pipe.fit(x_train, y_train)
 
     return pipe
 
@@ -71,7 +78,7 @@ def compute_model_metrics(y: np.ndarray, preds: np.ndarray):
     return precision, recall, fbeta
 
 
-def inference(model: Pipeline, x_test: np.ndarray):
+def inference(model: Pipeline, x_test: np.ndarray) -> np.ndarray:
     """
     Run model inferences and return the predictions.
 
