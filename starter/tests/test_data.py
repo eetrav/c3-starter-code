@@ -24,7 +24,8 @@ def test_nonexistent_column_raises_error(clean_data: pd.DataFrame,
         cat_features (list): List of categorical features in dataframe.
     """
 
-    cat_features_invalid = cat_features.append("fake-column")
+    cat_features_invalid = cat_features.copy()
+    cat_features_invalid.append("fake-column")
 
     train, _ = train_test_split(clean_data, test_size=0.20)
 
