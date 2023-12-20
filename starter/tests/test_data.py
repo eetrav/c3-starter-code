@@ -24,13 +24,16 @@ def test_nonexistent_column_raises_error(clean_data: pd.DataFrame,
         cat_features (list): List of categorical features in dataframe.
     """
 
-    cat_features = cat_features.append("fake-column")
+    cat_features_invalid = cat_features.append("fake-column")
 
     train, _ = train_test_split(clean_data, test_size=0.20)
 
     with pytest.raises(KeyError):
         process_data(
-            train, categorical_features=cat_features, label="salary", training=True
+            train,
+            categorical_features=cat_features_invalid,
+            label="salary",
+            training=True
         )
 
 
