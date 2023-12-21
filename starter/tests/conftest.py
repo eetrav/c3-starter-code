@@ -54,7 +54,7 @@ def fixture_cat_features() -> list:
 
 @pytest.fixture(scope='session', name='encoder_lb')
 def fixture_encoder_lb(clean_data: pd.DataFrame, cat_features: list) -> dict:
-    """Fixture for data encoder and label binarizer. 
+    """Fixture for data encoder and label binarizer.
 
     Args:
         clean_data (pd.DataFrame): Cleaned dataframe with features and target.
@@ -137,7 +137,7 @@ def metrics(test_data: dict, preds: np.ndarray) -> List[float]:
     """Fixture to calculate metrics for inference predictions on testing data.
 
     Args:
-        test_data (dict): Test data with dictionary keys for 'x_test' and 
+        test_data (dict): Test data with dictionary keys for 'x_test' and
             'y_test'.
         preds (np.ndarray): Numpy array of predictions for 'x_test' data.
 

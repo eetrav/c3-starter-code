@@ -71,7 +71,10 @@ def check_cat_columns(clean_data: pd.DataFrame, cat_features: list):
 
     with pytest.raises(ValueError):
         process_data(
-            train, categorical_features=cat_features, label="salary", training=True
+            train,
+            categorical_features=cat_features,
+            label="salary",
+            training=True
         )
 
 

@@ -19,10 +19,10 @@ def train_model(x_train: np.ndarray, y_train: np.ndarray) -> Pipeline:
     """
     Trains a Logistic Regression model and returns it.
 
-    Constructs a model pipeline to: 
-    1) Performs feature pre-processing to normalize and zero-center 
+    Constructs a model pipeline to:
+    1) Performs feature pre-processing to normalize and zero-center
     non-categorical variables
-    2) Train a Logistic Regression model with cross-fold validation. 
+    2) Train a Logistic Regression model with cross-fold validation.
 
     Inputs
     ------
@@ -44,7 +44,8 @@ def train_model(x_train: np.ndarray, y_train: np.ndarray) -> Pipeline:
 
     # From scikit-learn LogisticRegressionCV documentation:
     # ‘newton-cholesky’ is a good choice for n_samples >> n_features,
-    # especially with one-hot encoded categorical features with rare categories.
+    # especially with one-hot encoded categorical features with rare
+    # categories.
     pipe = make_pipeline(
         StandardScaler(), LogisticRegressionCV(solver="newton-cholesky"))
 
