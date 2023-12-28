@@ -49,11 +49,19 @@ def test_nonbinary_target_raises_error(clean_data: pd.DataFrame,
         cat_features (list): List of categorical features in dataframe.
     """
 
-    train, _ = train_test_split(clean_data, test_size=0.20)
-
-    x_train, y_train, _, _ = process_data(
-        train, categorical_features=cat_features, label="salary", training=True
+    preprocessor = PreProcessor(
+        clean_data,
+        categorical_features=cat_features,
+        label="salary",
+        training=True
     )
+
+    preprocessor.train_test_split(
+        test_size=0.20, stratify_by=clean_data["sex"]
+    )
+
+    # Process the training data to generate encoder and label_binarizer
+    x_train, y_train = preprocessor.process_data()
 
     y_train[y_train == 1] = 4
 

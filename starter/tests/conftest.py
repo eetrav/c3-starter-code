@@ -53,7 +53,7 @@ def fixture_cat_features() -> list:
 
 
 @pytest.fixture(scope='session', name='preprocessor')
-def fixture_preprocessor(clean_data: pd.DataFrame, cat_features: list) -> dict:
+def fixture_preprocessor(clean_data: pd.DataFrame, cat_features: list) -> PreProcessor:
     """Fixture for data encoder and label binarizer.
 
     Args:
@@ -110,7 +110,7 @@ def fixture_test_data(clean_data: pd.DataFrame, cat_features: list,
     """
 
     preprocessor.training = False
-    x_test, y_test, _, _ = preprocessor.process_data()
+    x_test, y_test = preprocessor.process_data()
 
     return {'x_test': x_test, 'y_test': y_test}
 
