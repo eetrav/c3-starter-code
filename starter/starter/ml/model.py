@@ -5,7 +5,13 @@ Author: Emily Travinsky
 Date: 12/2023
 """
 
+from typing import List
+
 import numpy as np
+import pandas as pd
+from pandas.api.types import is_string_dtype
+
+from ml.data import PreProcessor
 
 from sklearn.linear_model import LogisticRegressionCV
 from sklearn.metrics import fbeta_score, precision_score, recall_score
@@ -54,7 +60,7 @@ def train_model(x_train: np.ndarray, y_train: np.ndarray) -> Pipeline:
     return pipe
 
 
-def compute_model_metrics(y: np.ndarray, preds: np.ndarray):
+def compute_model_metrics(y: np.ndarray, preds: np.ndarray) -> List[float]:
     """
     Validates the trained ML model using precision, recall, and F1.
 
@@ -98,3 +104,23 @@ def inference(model: Pipeline, x_test: np.ndarray) -> np.ndarray:
     preds = model.predict(x_test)
 
     return preds
+
+
+def compute_sliced_metrics(preprocessor: PreProcessor,
+                           model):
+
+    metrics_df = pd.DataFrame(columns=["feature", "value",
+                                       "precision", "recall", "fbeta"])
+
+    for feature in preprocessor.categorical_features:
+        for value in preprocessor.x_test[feature].unique():
+            subset_x, subset_y = preprocessor.process_data(feature=feature,
+                                                           value=value)
+            preds = inference(model, subset_x)
+            precision, recall, fbeta = compute_model_metrics(subset_y, preds)
+            metrics_df.loc[len(metrics_df.index)] = [feature, value,
+                                                     precision, recall, fbeta]
+
+    metrics_df.to_csv("sliced_metrics.csv")
+
+    return None

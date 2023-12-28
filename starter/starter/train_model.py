@@ -10,16 +10,14 @@ import pandas as pd
 
 from sklearn.model_selection import train_test_split
 
-from ml.data import process_data
-from ml.model import train_model, inference, compute_model_metrics
+from ml.data import PreProcessor
+from ml.model import train_model, inference
+from ml.model import compute_model_metrics, compute_sliced_metrics
 
 # Add the necessary imports for the starter code.
 
 # Add code to load in the data.
 census_df = pd.read_csv('../data/census_cleaned.csv')
-
-# Optional: use K-fold cross validation instead of train-test split.
-train, test = train_test_split(census_df, test_size=0.20)
 
 cat_features = [
     "workclass",
@@ -32,20 +30,25 @@ cat_features = [
     "native-country"
 ]
 
+# Optional: use K-fold cross validation instead of train-test split.
+preprocessor = PreProcessor(census_df,
+                            categorical_features=cat_features,
+                            label="salary",
+                            training=True,
+                            )
+preprocessor.train_test_split(
+    test_size=0.20, stratify_by=census_df["sex"])
+
 # Process the training data with the process_data function.
-X_train, y_train, encoder, lb = process_data(
-    train, categorical_features=cat_features, label="salary", training=True
-)
+X_train, y_train = preprocessor.process_data()
 
 # Process the test data with the process_data function.
-X_test, y_test, encoder, lb = process_data(
-    test, categorical_features=cat_features, label="salary", training=False,
-    encoder=encoder, lb=lb
-)
+preprocessor.training = False
+X_test, y_test = preprocessor.process_data()
 
 # Train and save the model
 model = train_model(X_train, y_train)
-joblib.dump(model, "../tests/test_model.pkl")
+# joblib.dump(model, "../tests/test_model.pkl")
 
 # Perform inference on the trained model
 preds = inference(model, X_test)
@@ -54,3 +57,6 @@ preds = inference(model, X_test)
 precision, recall, fbeta = compute_model_metrics(y_test, preds)
 
 print(precision, recall, fbeta)
+
+# Compute metrics by data slicing and store in sliced_metrics.csv
+compute_sliced_metrics(preprocessor, model)

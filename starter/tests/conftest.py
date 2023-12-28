@@ -13,7 +13,7 @@ import pandas as pd
 import pytest
 
 from sklearn.pipeline import Pipeline
-from starter.starter.ml.data import process_data
+from starter.starter.ml.data import PreProcessor
 from starter.starter.ml.model import inference, compute_model_metrics
 
 
@@ -52,8 +52,8 @@ def fixture_cat_features() -> list:
     return cat_features
 
 
-@pytest.fixture(scope='session', name='encoder_lb')
-def fixture_encoder_lb(clean_data: pd.DataFrame, cat_features: list) -> dict:
+@pytest.fixture(scope='session', name='preprocessor')
+def fixture_preprocessor(clean_data: pd.DataFrame, cat_features: list) -> dict:
     """Fixture for data encoder and label binarizer.
 
     Args:
@@ -65,14 +65,21 @@ def fixture_encoder_lb(clean_data: pd.DataFrame, cat_features: list) -> dict:
     """
 
     # Process the training data with the process_data function.
-    _, _, encoder, lb = process_data(
+    preprocessor = PreProcessor(
         clean_data,
         categorical_features=cat_features,
         label="salary",
         training=True
     )
 
-    return {'encoder': encoder, 'lb': lb}
+    preprocessor.train_test_split(
+        test_size=0.20, stratify_by=clean_data["sex"]
+    )
+
+    # Process the training data to generate encoder and label_binarizer
+    _, _ = preprocessor.process_data()
+
+    return preprocessor
 
 
 @pytest.fixture(scope='session', name='trained_model')
@@ -90,7 +97,7 @@ def fixture_trained_model() -> Pipeline:
 
 @pytest.fixture(scope='session', name='test_data')
 def fixture_test_data(clean_data: pd.DataFrame, cat_features: list,
-                      encoder_lb: dict) -> dict:
+                      preprocessor: PreProcessor) -> dict:
     """Fixture to create dictionary of testing data for inference and metrics.
 
     Args:
@@ -102,14 +109,8 @@ def fixture_test_data(clean_data: pd.DataFrame, cat_features: list,
         dict: Test data dictionary with keys for 'x_test' and 'y_test'.
     """
 
-    x_test, y_test, _, _ = process_data(
-        clean_data,
-        categorical_features=cat_features,
-        label="salary",
-        training=False,
-        encoder=encoder_lb['encoder'],
-        lb=encoder_lb['lb']
-    )
+    preprocessor.training = False
+    x_test, y_test, _, _ = preprocessor.process_data()
 
     return {'x_test': x_test, 'y_test': y_test}
 
