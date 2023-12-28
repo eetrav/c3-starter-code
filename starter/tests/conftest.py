@@ -31,7 +31,7 @@ def fixture_clean_data() -> pd.DataFrame:
 
 
 @pytest.fixture(scope='session', name='cat_features')
-def fixture_cat_features() -> list[str]:
+def fixture_cat_features() -> list:
     """Fixture to define categorical features in testing data.
 
     Returns:
