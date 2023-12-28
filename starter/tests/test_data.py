@@ -11,7 +11,7 @@ import pytest
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
 
-from starter.starter.ml.data import process_data
+from starter.starter.ml.data import PreProcessor
 from starter.starter.ml.model import train_model
 
 
@@ -27,15 +27,17 @@ def test_nonexistent_column_raises_error(clean_data: pd.DataFrame,
     cat_features_invalid = cat_features.copy()
     cat_features_invalid.append("fake-column")
 
-    train, _ = train_test_split(clean_data, test_size=0.20)
+    preprocessor = PreProcessor(
+        clean_data,
+        categorical_features=cat_features_invalid,
+        label="salary",
+        training=True
+    )
+
+    preprocessor.train_test_split(clean_data, test_size=0.2)
 
     with pytest.raises(KeyError):
-        process_data(
-            train,
-            categorical_features=cat_features_invalid,
-            label="salary",
-            training=True
-        )
+        preprocessor.process_data()
 
 
 def test_nonbinary_target_raises_error(clean_data: pd.DataFrame,
