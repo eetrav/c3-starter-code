@@ -34,7 +34,7 @@ def test_nonexistent_column_raises_error(clean_data: pd.DataFrame,
         training=True
     )
 
-    preprocessor.train_test_split(clean_data, test_size=0.2)
+    preprocessor.train_test_split(test_size=0.2)
 
     with pytest.raises(KeyError):
         preprocessor.process_data()
