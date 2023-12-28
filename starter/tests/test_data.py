@@ -69,23 +69,20 @@ def test_nonbinary_target_raises_error(clean_data: pd.DataFrame,
         train_model(x_train, y_train)
 
 
-def check_cat_columns(clean_data: pd.DataFrame, cat_features: list):
+def check_cat_columns(preprocessor: PreProcessor, cat_features: list):
     """
     Function to test that expected columns are present in the dataframe.
 
     Args:
-        data (pd.DataFrame): Input dataframe for rental pricing.
+        clean_data (pd.DataFrame): Cleaned dataframe with features and target.
+        cat_features (list): List of categorical features in dataframe.
     """
 
-    train, _ = train_test_split(clean_data, test_size=0.20)
+    # Remove one categorical variable from the categorical features list
+    preprocessor.categorical_features = cat_features.drop(["salary"])
 
     with pytest.raises(ValueError):
-        process_data(
-            train,
-            categorical_features=cat_features,
-            label="salary",
-            training=True
-        )
+        preprocessor.process_data()
 
 
 def test_model_type(trained_model: Pipeline):
