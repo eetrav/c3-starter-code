@@ -69,7 +69,7 @@ def test_nonbinary_target_raises_error(clean_data: pd.DataFrame,
         train_model(x_train, y_train)
 
 
-def check_cat_columns(preprocessor: PreProcessor, cat_features: list):
+def check_error_for_missing_cat_column(preprocessor: PreProcessor, cat_features: list):
     """
     Function to test that expected columns are present in the dataframe.
 
@@ -79,7 +79,7 @@ def check_cat_columns(preprocessor: PreProcessor, cat_features: list):
     """
 
     # Remove one categorical variable from the categorical features list
-    preprocessor.categorical_features = cat_features.drop(["salary"])
+    preprocessor.categorical_features.remove("salary")
 
     with pytest.raises(ValueError):
         preprocessor.process_data()

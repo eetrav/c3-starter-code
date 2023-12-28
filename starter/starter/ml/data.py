@@ -119,7 +119,7 @@ class PreProcessor:
 
         for col in x_continuous.columns:
             if not is_numeric_dtype(x_continuous[col]):
-                print(col, "is neither categorical nor numeric!")
+                print(col, "was not listed as categorical but is also not numeric!")
                 raise ValueError
 
         if self.training is True:
