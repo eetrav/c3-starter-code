@@ -43,7 +43,7 @@ class PreProcessor:
         self.label = label
         self.training = training
         self.encoder = encoder
-        self.scaler = None
+        self.scaler = StandardScaler()
         self.lb = lb
 
         self.x_train = None
@@ -123,19 +123,15 @@ class PreProcessor:
                 print(col, "was not listed as categorical but is also not numeric!")
                 raise ValueError
 
-        scaler = StandardScaler()
-
         if self.training is True:
             self.encoder = OneHotEncoder(sparse=False, handle_unknown="ignore")
             self.lb = LabelBinarizer()
             x_categorical = self.encoder.fit_transform(x_categorical)
-            x_continuous = scaler.fit_transform(x_continuous)
-            self.scaler_params = scaler.get_params()
+            x_continuous = self.scaler.fit_transform(x_continuous)
             y = self.lb.fit_transform(y.values).ravel()
         else:
             x_categorical = self.encoder.transform(x_categorical)
-            scaler.set_params(**self.scaler_params)
-            x_continuous = scaler.fit_transform(x_continuous)
+            x_continuous = self.scaler.transform(x_continuous)
             try:
                 y = self.lb.transform(y.values).ravel()
             # Catch the case where y is None because we're doing inference.

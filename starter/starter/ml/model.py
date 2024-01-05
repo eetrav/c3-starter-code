@@ -11,11 +11,15 @@ import numpy as np
 import pandas as pd
 from pandas.api.types import is_string_dtype
 
-from starter.starter.ml.data import PreProcessor
+from ml.data import PreProcessor
 
 from sklearn.linear_model import LogisticRegressionCV
 from sklearn.metrics import fbeta_score, precision_score, recall_score
 from sklearn.pipeline import make_pipeline, Pipeline
+
+from sklearn.model_selection import GridSearchCV
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import cross_val_score
 
 # Optional: implement hyperparameter tuning.
 
@@ -52,11 +56,24 @@ def train_model(x_train: np.ndarray,
     # ‘newton-cholesky’ is a good choice for n_samples >> n_features,
     # especially with one-hot encoded categorical features with rare
     # categories.
-    model = LogisticRegressionCV(solver="newton-cholesky")
+    # model = LogisticRegressionCV(solver="lbfgs", cv=5)
 
-    model.fit(x_train, y_train)
+    # model.fit(x_train, y_train)
 
-    return model
+    clf = RandomForestClassifier()
+
+    param_grid = {
+        'n_estimators': [45, 60, 75],
+        'max_depth': [15, 25, 35]
+    }
+
+    grid_clf = GridSearchCV(clf, param_grid, cv=10)
+    grid_clf.fit(x_train, y_train)
+
+    print("Best Random Forest training params:")
+    print(grid_clf.best_params_)
+
+    return grid_clf.best_estimator_
 
 
 def compute_model_metrics(y: np.ndarray, preds: np.ndarray) -> List[float]:

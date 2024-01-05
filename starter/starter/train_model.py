@@ -56,7 +56,9 @@ preds = inference(model, X_test)
 # Compute model metrics
 precision, recall, fbeta = compute_model_metrics(y_test, preds)
 
-print(precision, recall, fbeta)
+print("Precision: {0:2f}".format(precision))
+print("Recall: {0:2f}".format(recall))
+print("fbeta: {0:2f}".format(fbeta))
 
 # Compute metrics by data slicing and store in sliced_metrics.csv
 compute_sliced_metrics(preprocessor, model)
