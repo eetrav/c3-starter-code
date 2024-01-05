@@ -16,12 +16,12 @@ from starter.starter.ml.data import PreProcessor
 from sklearn.linear_model import LogisticRegressionCV
 from sklearn.metrics import fbeta_score, precision_score, recall_score
 from sklearn.pipeline import make_pipeline, Pipeline
-from sklearn.preprocessing import StandardScaler
 
 # Optional: implement hyperparameter tuning.
 
 
-def train_model(x_train: np.ndarray, y_train: np.ndarray) -> Pipeline:
+def train_model(x_train: np.ndarray,
+                y_train: np.ndarray) -> LogisticRegressionCV:
     """
     Trains a Logistic Regression model and returns it.
 
@@ -52,12 +52,11 @@ def train_model(x_train: np.ndarray, y_train: np.ndarray) -> Pipeline:
     # ‘newton-cholesky’ is a good choice for n_samples >> n_features,
     # especially with one-hot encoded categorical features with rare
     # categories.
-    pipe = make_pipeline(
-        StandardScaler(), LogisticRegressionCV(solver="newton-cholesky"))
+    model = LogisticRegressionCV(solver="newton-cholesky")
 
-    pipe.fit(x_train, y_train)
+    model.fit(x_train, y_train)
 
-    return pipe
+    return model
 
 
 def compute_model_metrics(y: np.ndarray, preds: np.ndarray) -> List[float]:
