@@ -4,10 +4,10 @@ For additional information see the Model Card paper: https://arxiv.org/pdf/1810.
 
 ## Model Details
 Best Random Forest training params:
-{'max_depth': 25, 'n_estimators': 60}
-Precision: 0.764423
-Recall: 0.616279
-fbeta: 0.682403
+{'max_depth': 15, 'n_estimators': 45}
+Precision: 0.788496
+Recall: 0.575953
+fbeta: 0.665671
 
 ## Intended Use
 
@@ -18,10 +18,10 @@ fbeta: 0.682403
 ## Metrics
 _Please include the metrics used and your model's performance on those metrics._
 Best Random Forest training params:
-{'max_depth': 25, 'n_estimators': 60}
-Precision: 0.764423
-Recall: 0.616279
-fbeta: 0.682403
+{'max_depth': 15, 'n_estimators': 45}
+Precision: 0.788496
+Recall: 0.575953
+fbeta: 0.665671
 
 ## Ethical Considerations
 

@@ -8,7 +8,7 @@ import numpy as np
 import pandas as pd
 from pandas.api.types import is_numeric_dtype
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import LabelBinarizer, OneHotEncoder, StandardScaler
+from sklearn.preprocessing import LabelBinarizer, OneHotEncoder
 
 
 class PreProcessor:
@@ -43,7 +43,6 @@ class PreProcessor:
         self.label = label
         self.training = training
         self.encoder = encoder
-        self.scaler = StandardScaler()
         self.lb = lb
 
         self.x_train = None
@@ -127,11 +126,9 @@ class PreProcessor:
             self.encoder = OneHotEncoder(sparse=False, handle_unknown="ignore")
             self.lb = LabelBinarizer()
             x_categorical = self.encoder.fit_transform(x_categorical)
-            x_continuous = self.scaler.fit_transform(x_continuous)
             y = self.lb.fit_transform(y.values).ravel()
         else:
             x_categorical = self.encoder.transform(x_categorical)
-            x_continuous = self.scaler.transform(x_continuous)
             try:
                 y = self.lb.transform(y.values).ravel()
             # Catch the case where y is None because we're doing inference.
