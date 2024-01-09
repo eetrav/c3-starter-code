@@ -9,7 +9,7 @@ import numpy as np
 import pandas as pd
 import pytest
 from sklearn.model_selection import train_test_split
-from sklearn.pipeline import Pipeline
+from sklearn.ensemble import RandomForestClassifier
 
 from starter.starter.ml.data import PreProcessor
 from starter.starter.ml.model import train_model
@@ -85,14 +85,14 @@ def check_error_for_missing_cat_column(preprocessor: PreProcessor, cat_features:
         preprocessor.process_data()
 
 
-def test_model_type(trained_model: Pipeline):
+def test_model_type(trained_model: RandomForestClassifier):
     """Function to test that expected columns are present in the dataframe.
 
     Args:
         trained_model (Pipeline): ML Pipeline with preprocessing and model.
     """
 
-    assert isinstance(trained_model, Pipeline)
+    assert isinstance(trained_model, RandomForestClassifier)
 
 
 def test_predictions_type(preds: np.ndarray):

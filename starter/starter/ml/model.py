@@ -25,7 +25,7 @@ from sklearn.model_selection import cross_val_score
 
 
 def train_model(x_train: np.ndarray,
-                y_train: np.ndarray) -> LogisticRegressionCV:
+                y_train: np.ndarray) -> RandomForestClassifier:
     """
     Trains a Logistic Regression model and returns it.
 
