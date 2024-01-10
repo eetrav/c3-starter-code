@@ -27,12 +27,12 @@ from sklearn.model_selection import cross_val_score
 def train_model(x_train: np.ndarray,
                 y_train: np.ndarray) -> RandomForestClassifier:
     """
-    Trains a Logistic Regression model and returns it.
+    Trains a Random Forest model and returns it.
 
     Constructs a model pipeline to:
     1) Performs feature pre-processing to normalize and zero-center
     non-categorical variables
-    2) Train a Logistic Regression model with cross-fold validation.
+    2) Train a Random Forest model with cross-fold validation.
 
     Inputs
     ------
@@ -43,7 +43,7 @@ def train_model(x_train: np.ndarray,
 
     Returns
     -------
-    model (Pipeline) :
+    model (RandomForestClassifier) :
         Trained machine learning model.
     """
 
@@ -78,7 +78,7 @@ def train_model(x_train: np.ndarray,
 
 def compute_model_metrics(y: np.ndarray, preds: np.ndarray) -> List[float]:
     """
-    Validates the trained ML model using precision, recall, and F1.
+    Computes model metrics (precision, recall, and fbeta) for RandomForest.
 
     Inputs
     ------
@@ -87,27 +87,24 @@ def compute_model_metrics(y: np.ndarray, preds: np.ndarray) -> List[float]:
     preds : np.array
         Predicted labels, binarized.
 
-    Returns
-    -------
-    precision : float
-    recall : float
-    fbeta : float
+    Returns:
+        List[float]: List of model metrics [precision, recall, fbeta]
     """
 
     fbeta = fbeta_score(y, preds, beta=1, zero_division=1)
     precision = precision_score(y, preds, zero_division=1)
     recall = recall_score(y, preds, zero_division=1)
 
-    return precision, recall, fbeta
+    return [precision, recall, fbeta]
 
 
-def inference(model: Pipeline, x_test: np.ndarray) -> np.ndarray:
+def inference(model: RandomForestClassifier, x_test: np.ndarray) -> np.ndarray:
     """
     Run model inferences and return the predictions.
 
     Inputs
     ------
-    model : Trained sklearn.pipeline using sklearn LogisticRegressionCV
+    model : Trained sklearn RandomForestClassifier
     x-test : np.array
         Data used for prediction.
 
@@ -123,7 +120,21 @@ def inference(model: Pipeline, x_test: np.ndarray) -> np.ndarray:
 
 
 def compute_sliced_metrics(preprocessor: PreProcessor,
-                           model):
+                           model: RandomForestClassifier):
+    """
+    Function to compute model metrics on data slices.
+
+    Function loops over data categories and category values, computing model
+    metrics with each category-value pair held fixed.
+
+    Args:
+        preprocessor (PreProcessor): Preprocessing class for training and
+            testing data.
+        model (RandomForestClassifier): Trained RandomForestClassifier
+
+    Returns:
+        None: Writes a CSV output file of sliced model metrics. 
+    """
 
     metrics_df = pd.DataFrame(columns=["feature", "value",
                                        "precision", "recall", "fbeta"])

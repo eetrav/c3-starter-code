@@ -36,6 +36,7 @@ preprocessor = PreProcessor(census_df,
                             label="salary",
                             training=True,
                             )
+
 preprocessor.train_test_split(
     test_size=0.20, stratify_by=census_df["sex"])
 

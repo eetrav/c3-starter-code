@@ -69,13 +69,12 @@ def test_nonbinary_target_raises_error(clean_data: pd.DataFrame,
         train_model(x_train, y_train)
 
 
-def check_error_for_missing_cat_column(preprocessor: PreProcessor, cat_features: list):
+def check_error_for_missing_cat_column(preprocessor: PreProcessor):
     """
     Function to test that expected columns are present in the dataframe.
 
     Args:
-        clean_data (pd.DataFrame): Cleaned dataframe with features and target.
-        cat_features (list): List of categorical features in dataframe.
+        preprocessor (PreProcessor): Trained data Preprocessor.
     """
 
     # Remove one categorical variable from the categorical features list
@@ -89,7 +88,7 @@ def test_model_type(trained_model: RandomForestClassifier):
     """Function to test that expected columns are present in the dataframe.
 
     Args:
-        trained_model (Pipeline): ML Pipeline with preprocessing and model.
+        trained_model (RandomForestClassifier): Trained Random Forest model.
     """
 
     assert isinstance(trained_model, RandomForestClassifier)
