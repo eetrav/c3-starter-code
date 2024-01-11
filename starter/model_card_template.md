@@ -39,5 +39,18 @@ Recall: 0.575953
 fbeta: 0.665671
 
 ## Ethical Considerations
+The dataset is heavily imbalanced in representation of native US citizens and 
+various race categories. The sliced_metrics.csv file can be used to compare
+overall model performance to the model performance on individual groups.
+
+For instance, the overall model achieved an average precision of 0.788, but the
+Handlers-Cleaners occupation only achieved an average precision of 0.57.
+
+The average model recall was 0.576, but all marital-status categories aside
+from Married-Civ-Spouse achieved recall scores below 0.37.
 
 ## Caveats and Recommendations
+Downstream decisions should not be made based on this model's salary 
+predictions, given the Ethical Considerations listed above. Before utilizing
+this model for any policy-making decisions, the Ethical Considerations should
+be explored further, specifically with model performance on individual classes.
