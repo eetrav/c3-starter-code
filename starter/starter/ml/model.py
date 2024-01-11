@@ -15,11 +15,9 @@ from starter.starter.ml.data import PreProcessor
 
 from sklearn.linear_model import LogisticRegressionCV
 from sklearn.metrics import fbeta_score, precision_score, recall_score
-from sklearn.pipeline import make_pipeline, Pipeline
 
 from sklearn.model_selection import GridSearchCV
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.model_selection import cross_val_score
 
 # Optional: implement hyperparameter tuning.
 
