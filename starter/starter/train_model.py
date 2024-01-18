@@ -42,6 +42,7 @@ preprocessor.train_test_split(
 
 # Process the training data with the process_data function.
 X_train, y_train = preprocessor.process_data()
+joblib.dump(preprocessor.encoder, "../model/encoder.pkl")
 
 # Process the test data with the process_data function.
 preprocessor.training = False
@@ -49,7 +50,7 @@ X_test, y_test = preprocessor.process_data()
 
 # Train and save the model
 model = train_model(X_train, y_train)
-# joblib.dump(model, "../tests/test_model.pkl")
+joblib.dump(model, "../tests/test_model.pkl")
 
 # Perform inference on the trained model
 preds = inference(model, X_test)
