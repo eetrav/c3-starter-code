@@ -6,6 +6,8 @@ from pydantic import BaseModel
 
 import joblib
 
+from typing import List
+
 
 # Declare the data object with its components and their type.
 class TaggedItem(BaseModel):
@@ -19,6 +21,7 @@ items = {}
 
 # Initialize FastAPI instance
 app = FastAPI()
+encoder = joblib.load("./encoder.pkl")
 model = joblib.load("./model/test_model.pkl")
 
 
@@ -47,6 +50,11 @@ class Person(BaseModel):
         alias_generator = hyphenize
 
 
+class PredictedSalary(BaseModel):
+    Id: str
+    prediction: str
+
+
 @app.get("/")
 async def model_greeting():
     return {"greeting": "Welcome to our salary prediction model!"}
@@ -55,10 +63,11 @@ async def model_greeting():
 # This allows sending of data (our Person) via POST to the API.
 
 
-@app.post("/prediction/")
+@app.post("/prediction/", response_model=List[PredictedSalary])
 async def predict_salary(person: Person):
-    prediction = model.predict(person)
-    return prediction
+    encoded = encoder.transform(person)
+    # prediction = model.predict(person)
+    return encoded
 
 # # A GET that in this case just returns the item_id we pass,
 # # but a future iteration may link the item_id here to the one we defined in our TaggedItem.
