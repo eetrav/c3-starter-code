@@ -11,7 +11,7 @@ import numpy as np
 import pandas as pd
 from pandas.api.types import is_string_dtype
 
-from ml.data import PreProcessor
+from starter.starter.ml.data import PreProcessor
 
 from sklearn.linear_model import LogisticRegressionCV
 from sklearn.metrics import fbeta_score, precision_score, recall_score
