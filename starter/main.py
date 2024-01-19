@@ -1,35 +1,61 @@
-from fastapi import FastAPI
-# Import Union since our Item object will have tags that can be strings or a list.
-from typing import Union
-# BaseModel from Pydantic is used to define data objects.
-from pydantic import BaseModel
-
 import joblib
+import numpy as np
+import pandas as pd
+from fastapi import FastAPI
+# BaseModel from Pydantic is used to define data objects.
+from pydantic import BaseModel, ConfigDict
 
-from typing import List
-
-
-# Declare the data object with its components and their type.
-class TaggedItem(BaseModel):
-    name: str
-    tags: Union[str, list]
-    item_id: int
-
-
-# Save items from POST method in the memory
-items = {}
+cat_features = [
+    "workclass",
+    "education",
+    "marital-status",
+    "occupation",
+    "relationship",
+    "race",
+    "sex",
+    "native-country"
+]
 
 # Initialize FastAPI instance
 app = FastAPI()
-encoder = joblib.load("./encoder.pkl")
+
+# Load pre-computed encoder and pre-trained model
+encoder = joblib.load("./model/encoder.pkl")
 model = joblib.load("./model/test_model.pkl")
 
 
-def hyphenize(field: str):
+def hyphenize(field: str) -> str:
+    """
+    Function to generate an alias for data input fields, replacing _ with -
+
+    Args:
+        field (str): field to hyphenize
+
+    Returns:
+        str: field with underscores replaced by hyphens
+    """
+
     return field.replace("_", "-")
 
 
+def convert_pred_to_val(prediction: int) -> str:
+
+    pred_keys = {0: "<= $50K",
+                 1: "> $50K"}
+
+    return pred_keys[prediction]
+
+
 class Person(BaseModel):
+    """
+    Class to describe a Person used as input to salary prediction model.
+
+    Args:
+        BaseModel (BaseModel): Inheritance from Pydantic BaseModel
+    """
+
+    model_config = ConfigDict(alias_generator=hyphenize)
+
     age: int = 39
     workclass: str = "State-gov"
     fnlgt: int = 77516
@@ -45,37 +71,38 @@ class Person(BaseModel):
     hours_per_week: int = 40
     native_country: str = "United-States"
 
-    # https://github.com/pydantic/pydantic/issues/2266
-    class Config:
-        alias_generator = hyphenize
-
-
-class PredictedSalary(BaseModel):
-    Id: str
-    prediction: str
-
 
 @app.get("/")
-async def model_greeting():
+async def model_greeting() -> dict:
+    """
+    Root get function for API greeting.
+
+    Returns:
+        dict: JSON dict output containing API greeting
+    """
     return {"greeting": "Welcome to our salary prediction model!"}
 
 # https://www.amplemarket.com/blog/serving-machine-learning-models-with-fastapi
 # This allows sending of data (our Person) via POST to the API.
 
 
-@app.post("/prediction/", response_model=List[PredictedSalary])
-async def predict_salary(person: Person):
-    encoded = encoder.transform(person)
-    # prediction = model.predict(person)
-    return encoded
+@app.post("/prediction/")
+async def predict_salary(person: Person) -> dict:
+    """
+    API POST function to run model prediction on Person descriptor.
 
-# # A GET that in this case just returns the item_id we pass,
-# # but a future iteration may link the item_id here to the one we defined in our TaggedItem.
-# @app.get("/items/{item_id}")
-# async def get_items(item_id: int, count: int = 1):
-#     try:
-#         item = items[item_id]
-#     except:
-#         return "Item not found."
+    Args:
+        person (Person): Features for person to predict salary
 
-#     return {"fetch": f"Fetched: {item.name} with qty of {count}"}
+    Returns:
+        dict: Model salary prediction
+    """
+
+    sample_df = pd.DataFrame(person.dict(by_alias=True), index=[0])
+    x_categorical = sample_df[cat_features].values
+    x_continuous = sample_df.drop(*[cat_features], axis=1)
+    x_categorical = encoder.transform(x_categorical)
+    sample = np.concatenate([x_continuous, x_categorical], axis=1)
+    prediction = model.predict(sample)
+    salary = convert_pred_to_val(prediction[0])
+    return {"prediction": salary}
