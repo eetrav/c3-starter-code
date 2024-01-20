@@ -15,6 +15,7 @@ import pytest
 from sklearn.pipeline import Pipeline
 from starter.starter.ml.data import PreProcessor
 from starter.starter.ml.model import inference, compute_model_metrics
+from starter.starter.main import Person
 
 
 @pytest.fixture(scope='session', name='clean_data')
@@ -150,3 +151,50 @@ def metrics(test_data: dict, preds: np.ndarray) -> List[float]:
                                                      preds)
 
     return [precision, recall, fbeta]
+
+
+@pytest.fixture(scope="session")
+def salary_over_50k():
+
+    features = {
+        "age": 52,
+        "workclass": "Private",
+        "fnlgt": 45781,
+        "education": "45781",
+        "education-num": 14,
+        "marital-status": "Never-married",
+        "occupation": "Prof-specialty",
+        "relationship": "Not-in-family",
+        "race": "White",
+        "sex": "Female",
+        "capital-gain": 14084,
+        "capitol-loss": 0,
+        "hours-per-week": 45,
+        "native-country": "United-States"
+        }
+    
+    return features
+
+
+@pytest.fixture(scope="session")
+def salary_under_50k(Person):
+
+    features = Person(
+        "age" = 39,
+        "workclass" = "State-gov",
+        "fnlgt" = 77516,
+        "education" = "Bachelors",
+        "education_num" = 13,
+        "marital_status" = "Never-married",
+        "occupation" = "Adm-clerical",
+        "relationship" = "Not-in-family",
+        "race" = "White",
+        "sex" = "Male",
+        "capital_gain" = 2174,
+        "capitol_loss" = 0,
+        "hours_per_week" = 40,
+        "native_country" = "United-States"
+        )
+    
+    return features
+

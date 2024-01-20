@@ -97,7 +97,7 @@ async def predict_salary(person: Person) -> dict:
     Returns:
         dict: Model salary prediction
     """
-
+    print(person)
     sample_df = pd.DataFrame(person.dict(by_alias=True), index=[0])
     x_categorical = sample_df[cat_features].values
     x_continuous = sample_df.drop(*[cat_features], axis=1)
