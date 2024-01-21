@@ -171,30 +171,32 @@ def salary_over_50k():
         "capitol-loss": 0,
         "hours-per-week": 45,
         "native-country": "United-States"
-        }
-    
-    return features
+    }
+
+    person = Person(**features)
+    print(person)
+
+    return person
 
 
-@pytest.fixture(scope="session")
-def salary_under_50k(Person):
+# @pytest.fixture(scope="session")
+# def salary_under_50k(Person):
 
-    features = Person(
-        "age" = 39,
-        "workclass" = "State-gov",
-        "fnlgt" = 77516,
-        "education" = "Bachelors",
-        "education_num" = 13,
-        "marital_status" = "Never-married",
-        "occupation" = "Adm-clerical",
-        "relationship" = "Not-in-family",
-        "race" = "White",
-        "sex" = "Male",
-        "capital_gain" = 2174,
-        "capitol_loss" = 0,
-        "hours_per_week" = 40,
-        "native_country" = "United-States"
-        )
-    
-    return features
+#     features = Person(
+#         "age" = 39,
+#         "workclass" = "State-gov",
+#         "fnlgt" = 77516,
+#         "education" = "Bachelors",
+#         "education_num" = 13,
+#         "marital_status" = "Never-married",
+#         "occupation" = "Adm-clerical",
+#         "relationship" = "Not-in-family",
+#         "race" = "White",
+#         "sex" = "Male",
+#         "capital_gain" = 2174,
+#         "capitol_loss" = 0,
+#         "hours_per_week" = 40,
+#         "native_country" = "United-States"
+#         )
 
+#     return features
