@@ -34,9 +34,9 @@ were binarized. The training and testing data was stratified based on sex.
 ## Metrics
 Model performance was gauged based on precision, recall, and fbeta score. The
 highest performing model, with a max depth of 15 and 45 estimators, achieved:
-Precision: 0.784
-Recall: 0.619
-fbeta: 0.692
+Precision: 0.78
+Recall: 0.60
+fbeta: 0.68
 
 ## Ethical Considerations
 The dataset is heavily imbalanced in representation of native US citizens and 
