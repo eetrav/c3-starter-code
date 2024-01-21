@@ -14,7 +14,7 @@ from sklearn.ensemble import RandomForestClassifier
 from starter.starter.ml.data import PreProcessor
 from starter.starter.ml.model import train_model
 
-from starter.starter.main import Person
+from starter.main import Person
 
 
 def test_model_predicts_over_50k(person: Person):

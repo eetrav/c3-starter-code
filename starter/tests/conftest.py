@@ -15,7 +15,7 @@ import pytest
 from sklearn.pipeline import Pipeline
 from starter.starter.ml.data import PreProcessor
 from starter.starter.ml.model import inference, compute_model_metrics
-from starter.starter.main import Person
+from starter.main import Person
 
 
 @pytest.fixture(scope='session', name='clean_data')
