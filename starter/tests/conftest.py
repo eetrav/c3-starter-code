@@ -85,9 +85,6 @@ def fixture_preprocessor(clean_data: pd.DataFrame, cat_features: list) -> PrePro
         test_size=0.20, stratify_by=clean_data["sex"]
     )
 
-    # Process the training data to generate encoder and label_binarizer
-    # _, _ = preprocessor.process_data()
-
     return preprocessor
 
 
@@ -106,7 +103,7 @@ def fixture_trained_model() -> Pipeline:
 
 @pytest.fixture(scope='session', name='test_data')
 def fixture_test_data(clean_data: pd.DataFrame, cat_features: list,
-                      preprocessor: PreProcessor) -> dict:
+                      preprocessor: PreProcessor, encoder) -> dict:
     """Fixture to create dictionary of testing data for inference and metrics.
 
     Args:
@@ -119,6 +116,7 @@ def fixture_test_data(clean_data: pd.DataFrame, cat_features: list,
     """
 
     preprocessor.training = False
+    preprocessor.encoder = encoder
     x_test, y_test = preprocessor.process_data()
 
     return {'x_test': x_test, 'y_test': y_test}

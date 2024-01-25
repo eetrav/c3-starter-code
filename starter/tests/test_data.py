@@ -28,12 +28,6 @@ def test_nonexistent_column_raises_error(clean_data: pd.DataFrame,
     cat_features_invalid = cat_features.copy()
     cat_features_invalid.append("fake-column")
 
-    # preprocessor = PreProcessor(
-    #     clean_data,
-    #     categorical_features=cat_features_invalid,
-    #     label="salary",
-    #     training=True
-    # )
     preprocessor.categorical_features = cat_features_invalid
     preprocessor.train_test_split(test_size=0.2)
 
@@ -50,17 +44,6 @@ def test_nonbinary_target_raises_error(clean_data: pd.DataFrame,
         clean_data (pd.DataFrame): Cleaned dataframe with features and target.
         cat_features (list): List of categorical features in dataframe.
     """
-
-    # preprocessor = PreProcessor(
-    #     clean_data,
-    #     categorical_features=cat_features,
-    #     label="salary",
-    #     training=True
-    # )
-
-    # preprocessor.train_test_split(
-    #     test_size=0.20, stratify_by=clean_data["sex"]
-    # )
 
     # Process the training data to generate encoder and label_binarizer
     x_train, y_train = preprocessor.process_data()

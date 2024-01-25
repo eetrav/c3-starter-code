@@ -45,8 +45,8 @@ class PreProcessor:
         self.encoder = encoder
         self.lb = lb
 
-        self.x_train = None
-        self.x_test = None
+        self.train = None
+        self.test = None
 
     def train_test_split(self, test_size=0.2, stratify_by=None):
         """
@@ -58,9 +58,9 @@ class PreProcessor:
             stratify_by ([type], optional): Dataframe column to use for 
                 stratification. Defaults to None.
         """
-        self.x_train, self.x_test = train_test_split(self.df,
-                                                     test_size=test_size,
-                                                     stratify=stratify_by)
+        self.train, self.test = train_test_split(self.df,
+                                                 test_size=test_size,
+                                                 stratify=stratify_by)
 
     def process_data(self, feature: str = "", value: str = "") -> Tuple[np.ndarray, np.ndarray]:
         """
@@ -97,9 +97,9 @@ class PreProcessor:
             raise ValueError
 
         if self.training:
-            x = self.x_train.copy()
+            x = self.train.copy()
         else:
-            x = self.x_test.copy()
+            x = self.test.copy()
             # If we are slicing the data for performance metrics
             if feature and value:
                 x = x[x[feature] == value]
