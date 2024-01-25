@@ -56,7 +56,7 @@ def fixture_cat_features() -> list:
 @pytest.fixture(scope='session', name='encoder')
 def fixture_encoder():
 
-    encoder = joblib.load("./starter/tests/test_model.pkl")
+    encoder = joblib.load("./starter/tests/encoder.pkl")
 
     return encoder
 
