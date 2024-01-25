@@ -65,3 +65,4 @@ compute_sliced_metrics(preprocessor, model)
 
 joblib.dump(preprocessor.encoder, "../model/encoder.pkl")
 joblib.dump(model, "../tests/test_model.pkl")
+joblib.dump(model, "../model/test_model.pkl")

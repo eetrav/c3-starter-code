@@ -14,7 +14,7 @@ The trained model is a Random Forest Classifier from the Python scikit-learn
 package. The Classifier is trained with a grid search for the best
 parameter combinations of n_estimators and max_depth. The grid search is run
 with a 10-fold cross validation. The optimal performance was found for a 
-Random Forest with a max depth of 25 and 75 estimators.
+Random Forest with a max depth of 15 and 60 estimators.
 
 ## Intended Use
 This model is intended to be used for predicting salary classifications using
@@ -33,10 +33,10 @@ were binarized. The training and testing data was stratified based on sex.
 
 ## Metrics
 Model performance was gauged based on precision, recall, and fbeta score. The
-highest performing model, with a max depth of 15 and 45 estimators, achieved:
-Precision: 0.78
-Recall: 0.60
-fbeta: 0.68
+highest performing model, with a max depth of 15 and 60 estimators, achieved:
+Precision: 0.806
+Recall: 0.553
+fbeta: 0.656
 
 ## Ethical Considerations
 The dataset is heavily imbalanced in representation of native US citizens and 
