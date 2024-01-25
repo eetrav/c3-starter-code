@@ -35,9 +35,7 @@ def test_nonexistent_column_raises_error(clean_data: pd.DataFrame,
         preprocessor.process_data()
 
 
-def test_nonbinary_target_raises_error(clean_data: pd.DataFrame,
-                                       cat_features: list,
-                                       preprocessor: PreProcessor):
+def test_nonbinary_target_raises_error(preprocessor: PreProcessor):
     """Function to test that nonbinary target raises ValueError.
 
     Args:
@@ -46,6 +44,7 @@ def test_nonbinary_target_raises_error(clean_data: pd.DataFrame,
     """
 
     # Process the training data to generate encoder and label_binarizer
+    print(preprocessor.categorical_features)
     x_train, y_train = preprocessor.process_data()
 
     y_train[y_train == 1] = 4
