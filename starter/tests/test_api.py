@@ -17,7 +17,7 @@ from starter.starter.ml.model import train_model
 from starter.main import Person
 
 
-def test_model_predicts_over_50k(person: Person):
+def test_model_predicts_over_50k(salary_over_50k: Person):
     """
     Function to test that expected columns are present in the dataframe.
 
