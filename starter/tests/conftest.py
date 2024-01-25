@@ -53,6 +53,14 @@ def fixture_cat_features() -> list:
     return cat_features
 
 
+@pytest.fixture(scope='session', name='encoder')
+def fixture_encoder():
+
+    encoder = joblib.load("./starter/tests/test_model.pkl")
+
+    return encoder
+
+
 @pytest.fixture(scope='session', name='preprocessor')
 def fixture_preprocessor(clean_data: pd.DataFrame, cat_features: list) -> PreProcessor:
     """Fixture for data encoder and label binarizer.
@@ -78,7 +86,7 @@ def fixture_preprocessor(clean_data: pd.DataFrame, cat_features: list) -> PrePro
     )
 
     # Process the training data to generate encoder and label_binarizer
-    _, _ = preprocessor.process_data()
+    # _, _ = preprocessor.process_data()
 
     return preprocessor
 
