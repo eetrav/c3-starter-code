@@ -16,8 +16,7 @@ from starter.starter.ml.model import train_model
 
 
 def test_nonexistent_column_raises_error(clean_data: pd.DataFrame,
-                                         cat_features: list,
-                                         preprocessor: PreProcessor):
+                                         cat_features: list):
     """Function to test that a nonexistent column will raise a KeyError.
 
     Args:
@@ -28,8 +27,16 @@ def test_nonexistent_column_raises_error(clean_data: pd.DataFrame,
     cat_features_invalid = cat_features.copy()
     cat_features_invalid.append("fake-column")
 
-    preprocessor.categorical_features = cat_features_invalid
-    preprocessor.train_test_split(test_size=0.2)
+    preprocessor = PreProcessor(
+        clean_data,
+        categorical_features=cat_features_invalid,
+        label="salary",
+        training=True
+    )
+
+    preprocessor.train_test_split(
+        test_size=0.20, stratify_by=clean_data["sex"]
+    )
 
     with pytest.raises(KeyError):
         preprocessor.process_data()

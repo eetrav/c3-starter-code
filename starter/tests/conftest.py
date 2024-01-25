@@ -61,7 +61,7 @@ def fixture_encoder():
     return encoder
 
 
-@pytest.fixture(scope='function', name='preprocessor')
+@pytest.fixture(scope='session', name='preprocessor')
 def fixture_preprocessor(clean_data: pd.DataFrame, cat_features: list) -> PreProcessor:
     """Fixture for data encoder and label binarizer.
 
