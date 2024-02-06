@@ -27,6 +27,7 @@ def fixture_clean_data() -> pd.DataFrame:
     """
 
     df = pd.read_csv("./starter/data/census_cleaned.csv")
+    df = pd.read_csv("./starter/data/clean_data_sample.csv")
 
     return df
 
