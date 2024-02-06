@@ -17,7 +17,7 @@ def test_get_path():
     r = client.get("/")
     print(r)
     assert r.status_code == 200
-    assert r.json() == {"fetch": "Fetched 1 of 42"}
+    assert r.json() == {"greeting": "Welcome to our salary prediction model!"}
 
 
 # def test_get_path_query():
