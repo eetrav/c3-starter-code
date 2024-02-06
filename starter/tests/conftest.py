@@ -96,8 +96,6 @@ def fixture_trained_model(preprocessor: PreProcessor) -> Pipeline:
         Pipeline: ML pipeline with preprocessing and model.
     """
 
-    # model = joblib.load("./starter/tests/test_model.pkl")
-
     X_train, y_train = preprocessor.process_data()
 
     # Process the test data with the process_data function.
@@ -108,6 +106,19 @@ def fixture_trained_model(preprocessor: PreProcessor) -> Pipeline:
     model = train_model(X_train, y_train)
 
     return model
+
+
+@pytest.fixture(scope='session', name='testing_model')
+def fixture_testing_model(preprocessor: PreProcessor) -> Pipeline:
+    """Fixture to load pretrained model for testing.
+
+    Returns:
+        Pipeline: ML pipeline with preprocessing and model.
+    """
+
+    testing_model = joblib.load("./starter/tests/test_model.pkl")
+
+    return testing_model
 
 
 @pytest.fixture(scope='session', name='test_data')
@@ -132,7 +143,7 @@ def fixture_test_data(clean_data: pd.DataFrame, cat_features: list,
 
 
 @pytest.fixture(scope='session', name='preds')
-def fixture_preds(trained_model: Pipeline, test_data: dict) -> np.ndarray:
+def fixture_preds(testing_model: Pipeline, test_data: dict) -> np.ndarray:
     """Fixture to run inference on testing data.
 
     Args:
@@ -144,7 +155,7 @@ def fixture_preds(trained_model: Pipeline, test_data: dict) -> np.ndarray:
         np.ndarray: Numpy array of predictions for 'x_test' data.
     """
 
-    preds = inference(trained_model, test_data['x_test'])
+    preds = inference(testing_model, test_data['x_test'])
 
     return preds
 

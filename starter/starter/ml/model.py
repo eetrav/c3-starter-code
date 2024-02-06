@@ -50,14 +50,6 @@ def train_model(x_train: np.ndarray,
     if ~((y_train == 0) | (y_train == 1)).all():
         raise ValueError
 
-    # From scikit-learn LogisticRegressionCV documentation:
-    # ‘newton-cholesky’ is a good choice for n_samples >> n_features,
-    # especially with one-hot encoded categorical features with rare
-    # categories.
-    # model = LogisticRegressionCV(solver="lbfgs", cv=5)
-
-    # model.fit(x_train, y_train)
-
     clf = RandomForestClassifier()
 
     param_grid = {
@@ -65,7 +57,7 @@ def train_model(x_train: np.ndarray,
         'max_depth': [15, 25, 35]
     }
 
-    grid_clf = GridSearchCV(clf, param_grid, cv=5)
+    grid_clf = GridSearchCV(clf, param_grid, cv=10)
     grid_clf.fit(x_train, y_train)
 
     print("Best Random Forest training params:")
