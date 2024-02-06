@@ -204,6 +204,11 @@ def metrics(test_data: dict, preds: np.ndarray) -> List[float]:
 
 @pytest.fixture(scope="session")
 def salary_over_50k():
+    """AI is creating summary for salary_over_50k
+
+    Returns:
+        [type]: [description]
+    """
 
     features = {
         "age": 52,
@@ -223,7 +228,6 @@ def salary_over_50k():
     }
 
     person = Person(**features)
-    print(person)
 
     return person
 
