@@ -13,6 +13,8 @@ import pandas as pd
 import pytest
 
 from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.ensemble import RandomForestClassifier
 from starter.starter.ml.data import PreProcessor
 from starter.starter.ml.model import train_model, inference, compute_model_metrics
 from starter.main import Person
@@ -20,7 +22,8 @@ from starter.main import Person
 
 @pytest.fixture(scope='session', name='clean_data')
 def fixture_clean_data() -> pd.DataFrame:
-    """Fixture to import cleaned dataframe of census data.
+    """
+    Fixture to import a sample of cleaned census data.
 
     Returns:
         pd.DataFrame: Dataframe of census data with salary information.
@@ -33,7 +36,8 @@ def fixture_clean_data() -> pd.DataFrame:
 
 @pytest.fixture(scope='session', name='cat_features')
 def fixture_cat_features() -> list:
-    """Fixture to define categorical features in testing data.
+    """
+    Fixture to define categorical features in testing data.
 
     Returns:
         list: List of categorical features in cleaned dataframe.
@@ -54,7 +58,13 @@ def fixture_cat_features() -> list:
 
 
 @pytest.fixture(scope='session', name='encoder')
-def fixture_encoder():
+def fixture_encoder() -> OneHotEncoder:
+    """
+    Fixture to import a pre-trained categorical encoder for testing.
+
+    Returns:
+        OneHotEncoder: Pre-trained one-hot encoder for testing.
+    """
 
     encoder = joblib.load("./starter/tests/encoder.pkl")
 
@@ -63,14 +73,15 @@ def fixture_encoder():
 
 @pytest.fixture(scope='session', name='preprocessor')
 def fixture_preprocessor(clean_data: pd.DataFrame, cat_features: list) -> PreProcessor:
-    """Fixture for data encoder and label binarizer.
+    """
+    Fixture to instantiate PreProcessor for model training and testing.
 
     Args:
         clean_data (pd.DataFrame): Cleaned dataframe with features and target.
         cat_features (list): List of categorical features in dataframe.
 
     Returns:
-        dict: Dictionary with data 'encoder' and 'lb' (label binarizer) keys.
+        PreProcessor: Instantiated PreProcessor to use with model training.
     """
 
     # Process the training data with the process_data function.
@@ -89,11 +100,17 @@ def fixture_preprocessor(clean_data: pd.DataFrame, cat_features: list) -> PrePro
 
 
 @pytest.fixture(scope='session', name='trained_model')
-def fixture_trained_model(preprocessor: PreProcessor) -> Pipeline:
-    """Fixture to load pretrained model for testing.
+def fixture_trained_model(preprocessor: PreProcessor) -> RandomForestClassifier:
+    """
+    Fixture to train model and test output type.
+
+    Args:
+        preprocessor (PreProcessor): Instantiated PreProcessor to use with
+            model training.
 
     Returns:
-        Pipeline: ML pipeline with preprocessing and model.
+        RandomForestClassifier: RandomForestClassifier trained with mini- clean
+            dataset.
     """
 
     X_train, y_train = preprocessor.process_data()
@@ -109,11 +126,12 @@ def fixture_trained_model(preprocessor: PreProcessor) -> Pipeline:
 
 
 @pytest.fixture(scope='session', name='testing_model')
-def fixture_testing_model(preprocessor: PreProcessor) -> Pipeline:
-    """Fixture to load pretrained model for testing.
+def fixture_testing_model() -> RandomForestClassifier:
+    """
+    Fixture to load pretrained model for testing.
 
     Returns:
-        Pipeline: ML pipeline with preprocessing and model.
+        RandomForestClassifier: Classifier pretrained with all clean data.
     """
 
     testing_model = joblib.load("./starter/tests/test_model.pkl")
@@ -122,14 +140,16 @@ def fixture_testing_model(preprocessor: PreProcessor) -> Pipeline:
 
 
 @pytest.fixture(scope='session', name='test_data')
-def fixture_test_data(clean_data: pd.DataFrame, cat_features: list,
-                      preprocessor: PreProcessor, encoder) -> dict:
-    """Fixture to create dictionary of testing data for inference and metrics.
+def fixture_test_data(preprocessor: PreProcessor, encoder: OneHotEncoder) -> dict:
+    """
+    Fixture to create dictionary of testing data for inference and metrics.
 
     Args:
-        clean_data (pd.DataFrame): Cleaned dataframe with features and target.
-        cat_features (list): List of categorical features in dataframe.
-        encoder_lb (dict): Dictionary with keys for data 'encoder' and 'lb'.
+        preprocessor (PreProcessor): Instantiated PreProcessor to use with
+            model training.
+        encoder (OneHotEncoder): Pre-trained one-hot encoder for testing. Used
+            to replace the preprocessor encoder, insuring that input data will
+            encode in the same way the pre-trained model saw during training.
 
     Returns:
         dict: Test data dictionary with keys for 'x_test' and 'y_test'.
@@ -143,11 +163,13 @@ def fixture_test_data(clean_data: pd.DataFrame, cat_features: list,
 
 
 @pytest.fixture(scope='session', name='preds')
-def fixture_preds(testing_model: Pipeline, test_data: dict) -> np.ndarray:
-    """Fixture to run inference on testing data.
+def fixture_preds(testing_model: RandomForestClassifier, test_data: dict) -> np.ndarray:
+    """
+    Fixture to run inference on testing data.
 
     Args:
-        trained_model (Pipeline): Trained ML model to run inference.
+        trained_model (RandomForestClassifier): Trained ML model to run
+            inference.
         test_data (dict): Test data with dictionary keys for 'x_test' and
             'y_test'.
 
@@ -162,7 +184,8 @@ def fixture_preds(testing_model: Pipeline, test_data: dict) -> np.ndarray:
 
 @pytest.fixture(scope='session')
 def metrics(test_data: dict, preds: np.ndarray) -> List[float]:
-    """Fixture to calculate metrics for inference predictions on testing data.
+    """
+    Fixture to calculate metrics for inference predictions on testing data.
 
     Args:
         test_data (dict): Test data with dictionary keys for 'x_test' and
