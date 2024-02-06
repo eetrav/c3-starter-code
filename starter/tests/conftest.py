@@ -14,7 +14,7 @@ import pytest
 
 from sklearn.pipeline import Pipeline
 from starter.starter.ml.data import PreProcessor
-from starter.starter.ml.model import inference, compute_model_metrics
+from starter.starter.ml.model import train_model, inference, compute_model_metrics
 from starter.main import Person
 
 
@@ -26,7 +26,6 @@ def fixture_clean_data() -> pd.DataFrame:
         pd.DataFrame: Dataframe of census data with salary information.
     """
 
-    df = pd.read_csv("./starter/data/census_cleaned.csv")
     df = pd.read_csv("./starter/tests/clean_data_sample.csv")
 
     return df
@@ -90,14 +89,23 @@ def fixture_preprocessor(clean_data: pd.DataFrame, cat_features: list) -> PrePro
 
 
 @pytest.fixture(scope='session', name='trained_model')
-def fixture_trained_model() -> Pipeline:
+def fixture_trained_model(preprocessor: PreProcessor) -> Pipeline:
     """Fixture to load pretrained model for testing.
 
     Returns:
         Pipeline: ML pipeline with preprocessing and model.
     """
 
-    model = joblib.load("./starter/tests/test_model.pkl")
+    # model = joblib.load("./starter/tests/test_model.pkl")
+
+    X_train, y_train = preprocessor.process_data()
+
+    # Process the test data with the process_data function.
+    preprocessor.training = False
+    X_test, y_test = preprocessor.process_data()
+
+    # Train and save the model
+    model = train_model(X_train, y_train)
 
     return model
 
