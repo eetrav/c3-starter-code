@@ -65,7 +65,7 @@ def train_model(x_train: np.ndarray,
         'max_depth': [15, 25, 35]
     }
 
-    grid_clf = GridSearchCV(clf, param_grid, cv=10)
+    grid_clf = GridSearchCV(clf, param_grid, cv=5)
     grid_clf.fit(x_train, y_train)
 
     print("Best Random Forest training params:")
