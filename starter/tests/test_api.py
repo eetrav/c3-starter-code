@@ -33,8 +33,8 @@ def test_model_predicts_over_50k(salary_over_50k: dict):
     """
 
     r = client.post("/prediction/", json=salary_over_50k)
-    print(r.json())
-    assert r.status_code == 404  # 200
+    assert r.json() == {'prediction': '> $50K'}
+    assert r.status_code == 200
 
 
 def test_model_predicts_under_50k(salary_under_50k: dict):
@@ -46,5 +46,5 @@ def test_model_predicts_under_50k(salary_under_50k: dict):
     """
 
     r = client.post("/prediction/", json=salary_under_50k)
-    print(r.json())
-    assert r.status_code == 404  # 200
+    assert r.json() == {'prediction': '<= $50K'}
+    assert r.status_code == 200
