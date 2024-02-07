@@ -17,7 +17,6 @@ from sklearn.preprocessing import OneHotEncoder
 from sklearn.ensemble import RandomForestClassifier
 from starter.starter.ml.data import PreProcessor
 from starter.starter.ml.model import train_model, inference, compute_model_metrics
-from starter.main import Person
 
 
 @pytest.fixture(scope='session', name='clean_data')
@@ -227,29 +226,27 @@ def salary_over_50k():
         "native-country": "United-States"
     }
 
-    person = Person(**features)
-
-    return features  # person
+    return features
 
 
-# @pytest.fixture(scope="session")
-# def salary_under_50k(Person):
+@pytest.fixture(scope="session")
+def salary_under_50k():
 
-#     features = Person(
-#         "age" = 39,
-#         "workclass" = "State-gov",
-#         "fnlgt" = 77516,
-#         "education" = "Bachelors",
-#         "education_num" = 13,
-#         "marital_status" = "Never-married",
-#         "occupation" = "Adm-clerical",
-#         "relationship" = "Not-in-family",
-#         "race" = "White",
-#         "sex" = "Male",
-#         "capital_gain" = 2174,
-#         "capitol_loss" = 0,
-#         "hours_per_week" = 40,
-#         "native_country" = "United-States"
-#         )
+    features = {
+        "age": 39,
+        "workclass": "State-gov",
+        "fnlgt": 77516,
+        "education": "Bachelors",
+        "education_num": 13,
+        "marital_status": "Never-married",
+        "occupation": "Adm-clerical",
+        "relationship": "Not-in-family",
+        "race": "White",
+        "sex": "Male",
+        "capital_gain": 2174,
+        "capitol_loss": 0,
+        "hours_per_week": 40,
+        "native_country": "United-States"
+    }
 
-#     return features
+    return features

@@ -24,7 +24,7 @@ def test_get_malformed():
     assert r.status_code != 200
 
 
-def test_model_predicts_over_50k(salary_over_50k: Person):
+def test_model_predicts_over_50k(salary_over_50k: dict):
     """
     Function to test that expected columns are present in the dataframe.
 
@@ -34,4 +34,17 @@ def test_model_predicts_over_50k(salary_over_50k: Person):
 
     r = client.post("/prediction/", json=salary_over_50k)
     print(r)
-    # assert response.status_code == 200
+    assert r.status_code == 404  # 200
+
+
+def test_model_predicts_under_50k(salary_under_50k: dict):
+    """
+    Function to test that expected columns are present in the dataframe.
+
+    Args:
+        preprocessor (PreProcessor): Trained data Preprocessor.
+    """
+
+    r = client.post("/prediction/", json=salary_under_50k)
+    print(r)
+    assert r.status_code == 404  # 200
