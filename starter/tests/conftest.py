@@ -229,7 +229,7 @@ def salary_over_50k():
 
     person = Person(**features)
 
-    return person
+    return features  # person
 
 
 # @pytest.fixture(scope="session")
