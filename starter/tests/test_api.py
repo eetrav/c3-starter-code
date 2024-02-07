@@ -32,6 +32,6 @@ def test_model_predicts_over_50k(salary_over_50k: Person):
         preprocessor (PreProcessor): Trained data Preprocessor.
     """
 
-    r = client.post("/prediction/", salary_over_50k)
+    r = client.post(salary_over_50k)
     print(r)
     # assert response.status_code == 200
