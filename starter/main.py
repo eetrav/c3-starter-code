@@ -9,12 +9,12 @@ from pydantic import BaseModel, ConfigDict
 cat_features = [
     "workclass",
     "education",
-    "marital_status",
+    "marital-status",
     "occupation",
     "relationship",
     "race",
     "sex",
-    "native_country"
+    "native-country"
 ]
 
 # Initialize FastAPI instance
