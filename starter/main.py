@@ -21,8 +21,8 @@ cat_features = [
 app = FastAPI()
 
 # Load pre-computed encoder and pre-trained model
-encoder = joblib.load("./tests/encoder.pkl")
-model = joblib.load("./tests/test_model.pkl")
+encoder = joblib.load("./starter/tests/encoder.pkl")
+model = joblib.load("./starter/tests/test_model.pkl")
 
 
 def hyphenize(field: str) -> str:
