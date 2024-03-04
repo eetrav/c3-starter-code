@@ -210,19 +210,19 @@ def salary_over_50k():
     """
 
     features = {
-        "age": 52,
-        "workclass": "Self-emp-not-inc",
-        "fnlgt": 209642,
-        "education": "HS-grad",
-        "education_num": 9,
+        "age": 40,
+        "workclass": "Private",
+        "fnlgt": 193524,
+        "education": "Doctorate",
+        "education_num": 16,
         "marital_status": "Married-civ-spouse",
-        "occupation": "Exec-managerial",
+        "occupation": "Prof-specialty",
         "relationship": "Husband",
         "race": "White",
         "sex": "Male",
         "capital_gain": 0,
         "capitol_loss": 0,
-        "hours_per_week": 45,
+        "hours_per_week": 60,
         "native_country": "United-States"
     }
 
