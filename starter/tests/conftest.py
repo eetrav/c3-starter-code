@@ -214,16 +214,16 @@ def salary_over_50k():
         "workclass": "Private",
         "fnlgt": 193524,
         "education": "Doctorate",
-        "education_num": 16,
-        "marital_status": "Married-civ-spouse",
+        "education-num": 16,
+        "marital-status": "Married-civ-spouse",
         "occupation": "Prof-specialty",
         "relationship": "Husband",
         "race": "White",
         "sex": "Male",
-        "capital_gain": 0,
-        "capitol_loss": 0,
-        "hours_per_week": 60,
-        "native_country": "United-States"
+        "capital-gain": 0,
+        "capitol-loss": 0,
+        "hours-per-week": 60,
+        "native-country": "United-States"
     }
 
     return features
@@ -237,16 +237,16 @@ def salary_under_50k():
         "workclass": "State-gov",
         "fnlgt": 77516,
         "education": "Bachelors",
-        "education_num": 13,
-        "marital_status": "Never-married",
+        "education-num": 13,
+        "marital-status": "Never-married",
         "occupation": "Adm-clerical",
         "relationship": "Not-in-family",
         "race": "White",
         "sex": "Male",
-        "capital_gain": 2174,
-        "capitol_loss": 0,
-        "hours_per_week": 40,
-        "native_country": "United-States"
+        "capital-gain": 2174,
+        "capitol-loss": 0,
+        "hours-per-week": 40,
+        "native-country": "United-States"
     }
 
     return features
