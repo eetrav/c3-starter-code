@@ -214,16 +214,16 @@ def salary_over_50k():
         "workclass": "Private",
         "fnlgt": 45781,
         "education": "45781",
-        "education-num": 14,
-        "marital-status": "Never-married",
+        "education_num": 14,
+        "marital_status": "Never-married",
         "occupation": "Prof-specialty",
         "relationship": "Not-in-family",
         "race": "White",
         "sex": "Female",
-        "capital-gain": 14084,
-        "capitol-loss": 0,
-        "hours-per-week": 45,
-        "native-country": "United-States"
+        "capital_gain": 14084,
+        "capitol_loss": 0,
+        "hours_per_week": 45,
+        "native_country": "United-States"
     }
 
     return features
