@@ -2,6 +2,7 @@ import joblib
 import numpy as np
 import pandas as pd
 from fastapi import FastAPI
+from fastapi.encoders import jsonable_encoder
 # BaseModel from Pydantic is used to define data objects.
 from pydantic import BaseModel, ConfigDict
 
@@ -20,8 +21,8 @@ cat_features = [
 app = FastAPI()
 
 # Load pre-computed encoder and pre-trained model
-encoder = joblib.load("./starter/model/encoder.pkl")
-model = joblib.load("./starter/model/test_model.pkl")
+encoder = joblib.load("./model/encoder.pkl")
+model = joblib.load("./model/test_model.pkl")
 
 
 def hyphenize(field: str) -> str:
@@ -86,6 +87,18 @@ async def model_greeting() -> dict:
 # This allows sending of data (our Person) via POST to the API.
 
 
+def get_salary(person: Person) -> str:
+    print(person)
+    sample_df = pd.DataFrame(person.dict(by_alias=True), index=[0])
+    x_categorical = sample_df[cat_features].values
+    x_continuous = sample_df.drop(*[cat_features], axis=1)
+    x_categorical = encoder.transform(x_categorical)
+    sample = np.concatenate([x_continuous, x_categorical], axis=1)
+    prediction = model.predict(sample)
+    salary = convert_pred_to_val(prediction[0])
+    return salary
+
+
 @app.post("/prediction/")
 async def predict_salary(person: Person) -> dict:
     """
@@ -97,12 +110,15 @@ async def predict_salary(person: Person) -> dict:
     Returns:
         dict: Model salary prediction
     """
-    print(person)
-    sample_df = pd.DataFrame(person.dict(by_alias=True), index=[0])
-    x_categorical = sample_df[cat_features].values
-    x_continuous = sample_df.drop(*[cat_features], axis=1)
-    x_categorical = encoder.transform(x_categorical)
-    sample = np.concatenate([x_continuous, x_categorical], axis=1)
-    prediction = model.predict(sample)
-    salary = convert_pred_to_val(prediction[0])
-    return {"prediction": salary}
+    salary = get_salary(person)
+    explicit_result = jsonable_encoder({"prediction": salary})
+    return explicit_result
+    # print(person)
+    # sample_df = pd.DataFrame(person.dict(by_alias=True), index=[0])
+    # x_categorical = sample_df[cat_features].values
+    # x_continuous = sample_df.drop(*[cat_features], axis=1)
+    # x_categorical = encoder.transform(x_categorical)
+    # sample = np.concatenate([x_continuous, x_categorical], axis=1)
+    # prediction = model.predict(sample)
+    # salary = convert_pred_to_val(prediction[0])
+    # return {"prediction": salary}
