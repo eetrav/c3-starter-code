@@ -87,17 +87,17 @@ async def model_greeting() -> dict:
 # This allows sending of data (our Person) via POST to the API.
 
 
-def get_salary(person: Person) -> str:
-    print(person)
-    sample_df = pd.DataFrame(person.dict(by_alias=True), index=[0])
-    print(sample_df)
-    x_categorical = sample_df[cat_features].values
-    x_continuous = sample_df.drop(*[cat_features], axis=1)
-    x_categorical = encoder.transform(x_categorical)
-    sample = np.concatenate([x_continuous, x_categorical], axis=1)
-    prediction = model.predict(sample)
-    salary = convert_pred_to_val(prediction[0])
-    return salary
+# def get_salary(person: Person) -> str:
+#     print(person)
+#     sample_df = pd.DataFrame(person.dict(by_alias=True), index=[0])
+#     print(sample_df)
+#     x_categorical = sample_df[cat_features].values
+#     x_continuous = sample_df.drop(*[cat_features], axis=1)
+#     x_categorical = encoder.transform(x_categorical)
+#     sample = np.concatenate([x_continuous, x_categorical], axis=1)
+#     prediction = model.predict(sample)
+#     salary = convert_pred_to_val(prediction[0])
+#     return salary
 
 
 @app.post("/prediction/")
@@ -111,15 +111,16 @@ async def predict_salary(person: Person) -> dict:
     Returns:
         dict: Model salary prediction
     """
-    salary = get_salary(person)
-    explicit_result = jsonable_encoder({"prediction": salary})
-    return explicit_result
-    # print(person)
-    # sample_df = pd.DataFrame(person.dict(by_alias=True), index=[0])
-    # x_categorical = sample_df[cat_features].values
-    # x_continuous = sample_df.drop(*[cat_features], axis=1)
-    # x_categorical = encoder.transform(x_categorical)
-    # sample = np.concatenate([x_continuous, x_categorical], axis=1)
-    # prediction = model.predict(sample)
-    # salary = convert_pred_to_val(prediction[0])
-    # return {"prediction": salary}
+    # salary = get_salary(person)
+    # explicit_result = jsonable_encoder({"prediction": salary})
+    # return explicit_result
+    print(person)
+    sample_df = pd.DataFrame(person.dict(by_alias=True), index=[0])
+    print(sample_df)
+    x_categorical = sample_df[cat_features].values
+    x_continuous = sample_df.drop(*[cat_features], axis=1)
+    x_categorical = encoder.transform(x_categorical)
+    sample = np.concatenate([x_continuous, x_categorical], axis=1)
+    prediction = model.predict(sample)
+    salary = convert_pred_to_val(prediction[0])
+    return {"prediction": salary}
