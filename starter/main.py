@@ -115,8 +115,9 @@ async def predict_salary(person: Person):
     # explicit_result = jsonable_encoder({"prediction": salary})
     # return explicit_result
     print(person)
-    # json_compatible_person = jsonable_encoder(person)
-    sample_df = pd.DataFrame(person.dict(by_alias=True), index=[0])
+    json_compatible_person = jsonable_encoder(person)
+    sample_df = pd.DataFrame(
+        json_compatible_person.dict(by_alias=True), index=[0])
     print(sample_df)
     x_categorical = sample_df[cat_features].values
     x_continuous = sample_df.drop(*[cat_features], axis=1)
