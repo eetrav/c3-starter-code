@@ -25,18 +25,18 @@ encoder = joblib.load("./starter/tests/encoder.pkl")
 model = joblib.load("./starter/tests/test_model.pkl")
 
 
-def hyphenize(field: str) -> str:
-    """
-    Function to generate an alias for data input fields, replacing _ with -
+# def hyphenize(field: str) -> str:
+#     """
+#     Function to generate an alias for data input fields, replacing _ with -
 
-    Args:
-        field (str): field to hyphenize
+#     Args:
+#         field (str): field to hyphenize
 
-    Returns:
-        str: field with underscores replaced by hyphens
-    """
+#     Returns:
+#         str: field with underscores replaced by hyphens
+#     """
 
-    return field.replace("_", "-")
+#     return field.replace("_", "-")
 
 
 # def convert_pred_to_val(prediction: int) -> str:
@@ -55,7 +55,7 @@ class Person(BaseModel):
         BaseModel (BaseModel): Inheritance from Pydantic BaseModel
     """
 
-    model_config = ConfigDict(alias_generator=hyphenize)
+    # model_config = ConfigDict(alias_generator=hyphenize)
 
     age: int = 39
     workclass: str = "State-gov"
@@ -100,21 +100,21 @@ async def model_greeting() -> dict:
 #     return salary
 
 
-@app.post("/prediction/")
-async def predict_salary(person: Person):
-    """
-    API POST function to run model prediction on Person descriptor.
+# @app.post("/prediction/")
+# async def predict_salary(person: Person):
+    # """
+    # API POST function to run model prediction on Person descriptor.
 
-    Args:
-        person (Person): Features for person to predict salary
+    # Args:
+    #     person (Person): Features for person to predict salary
 
-    Returns:
-        dict: Model salary prediction
-    """
+    # Returns:
+    #     dict: Model salary prediction
+    # """
     # salary = get_salary(person)
     # explicit_result = jsonable_encoder({"prediction": salary})
     # return explicit_result
-    print(person)
+    # print(person)
     # json_compatible_person = jsonable_encoder(person)
     # sample_df = pd.DataFrame(
     #     json_compatible_person.dict(by_alias=True), index=[0])
@@ -126,4 +126,4 @@ async def predict_salary(person: Person):
     # prediction = model.predict(sample)
     # salary = convert_pred_to_val(prediction[0])
     # return jsonable_encoder({"prediction": salary})
-    return {"greeting": "Welcome to our salary prediction model!"}
+    # return {"greeting": "Welcome to our salary prediction model!"}
