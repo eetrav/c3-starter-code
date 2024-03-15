@@ -100,17 +100,17 @@ async def model_greeting() -> dict:
 #     return salary
 
 
-# @app.post("/prediction/")
-# async def predict_salary(person: Person):
-    # """
-    # API POST function to run model prediction on Person descriptor.
+@app.post("/prediction/")
+async def predict_salary():  # person: Person):
+    """
+    API POST function to run model prediction on Person descriptor.
 
-    # Args:
-    #     person (Person): Features for person to predict salary
+    Args:
+        person (Person): Features for person to predict salary
 
-    # Returns:
-    #     dict: Model salary prediction
-    # """
+    Returns:
+        dict: Model salary prediction
+    """
     # salary = get_salary(person)
     # explicit_result = jsonable_encoder({"prediction": salary})
     # return explicit_result
@@ -126,4 +126,4 @@ async def model_greeting() -> dict:
     # prediction = model.predict(sample)
     # salary = convert_pred_to_val(prediction[0])
     # return jsonable_encoder({"prediction": salary})
-    # return {"greeting": "Welcome to our salary prediction model!"}
+    return {"greeting": "Welcome to our salary prediction model!"}
