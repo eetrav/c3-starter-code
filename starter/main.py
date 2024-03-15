@@ -111,19 +111,11 @@ async def predict_salary(person: Person):
     Returns:
         dict: Model salary prediction
     """
-    # salary = get_salary(person)
-    # explicit_result = jsonable_encoder({"prediction": salary})
-    # return explicit_result
-    # print(person)
-    # json_compatible_person = jsonable_encoder(person)
-    # sample_df = pd.DataFrame(
-    #     json_compatible_person.dict(by_alias=True), index=[0])
-    # print(sample_df)
-    # x_categorical = sample_df[cat_features].values
-    # x_continuous = sample_df.drop(*[cat_features], axis=1)
-    # x_categorical = encoder.transform(x_categorical)
-    # sample = np.concatenate([x_continuous, x_categorical], axis=1)
-    # prediction = model.predict(sample)
-    # salary = convert_pred_to_val(prediction[0])
-    # return jsonable_encoder({"prediction": salary})
-    return {"greeting": "Welcome to our salary prediction model!"}
+    sample_df = pd.DataFrame(person.dict(by_alias=True), index=[0])
+    x_categorical = sample_df[cat_features].values
+    x_continuous = sample_df.drop(*[cat_features], axis=1)
+    x_categorical = encoder.transform(x_categorical)
+    sample = np.concatenate([x_continuous, x_categorical], axis=1)
+    prediction = model.predict(sample)
+    salary = convert_pred_to_val(prediction[0])
+    return {"prediction": salary}
