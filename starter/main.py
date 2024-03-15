@@ -126,4 +126,4 @@ async def predict_salary(person: Person):
     # prediction = model.predict(sample)
     # salary = convert_pred_to_val(prediction[0])
     # return jsonable_encoder({"prediction": salary})
-    return json_compatible_person
+    return {"greeting": "Welcome to our salary prediction model!"}
