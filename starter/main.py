@@ -39,12 +39,12 @@ def hyphenize(field: str) -> str:
     return field.replace("_", "-")
 
 
-def convert_pred_to_val(prediction: int) -> str:
+# def convert_pred_to_val(prediction: int) -> str:
 
-    pred_keys = {0: "<= $50K",
-                 1: "> $50K"}
+#     pred_keys = {0: "<= $50K",
+#                  1: "> $50K"}
 
-    return pred_keys[prediction]
+#     return pred_keys[prediction]
 
 
 class Person(BaseModel):
@@ -115,7 +115,7 @@ async def predict_salary(person: Person):
     # explicit_result = jsonable_encoder({"prediction": salary})
     # return explicit_result
     print(person)
-    json_compatible_person = jsonable_encoder(person)
+    # json_compatible_person = jsonable_encoder(person)
     # sample_df = pd.DataFrame(
     #     json_compatible_person.dict(by_alias=True), index=[0])
     # print(sample_df)
