@@ -1,6 +1,6 @@
 import requests
 
-api_site = 'https://c3-starter-code.onrender.com/'
+api_site = 'https://c3-starter-code.onrender.com/prediction/'
 
 features = {
     "age": 52,
@@ -19,4 +19,7 @@ features = {
     "native-country": "United-States"
 }
 
-response = requests.post(api_site, data=features)
+response = requests.post(api_site, json=features)
+
+print(response.text)
+print(response.status_code)
