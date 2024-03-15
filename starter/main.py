@@ -39,12 +39,12 @@ def hyphenize(field: str) -> str:
     return field.replace("_", "-")
 
 
-# def convert_pred_to_val(prediction: int) -> str:
+def convert_pred_to_val(prediction: int) -> str:
 
-#     pred_keys = {0: "<= $50K",
-#                  1: "> $50K"}
+    pred_keys = {0: "<= $50K",
+                 1: "> $50K"}
 
-#     return pred_keys[prediction]
+    return pred_keys[prediction]
 
 
 class Person(BaseModel):
