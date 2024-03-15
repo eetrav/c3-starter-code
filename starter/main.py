@@ -101,7 +101,7 @@ async def model_greeting() -> dict:
 
 
 @app.post("/prediction/")
-async def predict_salary():  # person: Person):
+async def predict_salary(person: Person):
     """
     API POST function to run model prediction on Person descriptor.
 
