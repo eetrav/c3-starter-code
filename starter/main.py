@@ -25,18 +25,18 @@ encoder = joblib.load("./starter/tests/encoder.pkl")
 model = joblib.load("./starter/tests/test_model.pkl")
 
 
-# def hyphenize(field: str) -> str:
-#     """
-#     Function to generate an alias for data input fields, replacing _ with -
+def hyphenize(field: str) -> str:
+    """
+    Function to generate an alias for data input fields, replacing _ with -
 
-#     Args:
-#         field (str): field to hyphenize
+    Args:
+        field (str): field to hyphenize
 
-#     Returns:
-#         str: field with underscores replaced by hyphens
-#     """
+    Returns:
+        str: field with underscores replaced by hyphens
+    """
 
-#     return field.replace("_", "-")
+    return field.replace("_", "-")
 
 
 # def convert_pred_to_val(prediction: int) -> str:
@@ -55,7 +55,7 @@ class Person(BaseModel):
         BaseModel (BaseModel): Inheritance from Pydantic BaseModel
     """
 
-    # model_config = ConfigDict(alias_generator=hyphenize)
+    model_config = ConfigDict(alias_generator=hyphenize)
 
     age: int = 39
     workclass: str = "State-gov"
