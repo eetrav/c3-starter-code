@@ -2,7 +2,6 @@ import joblib
 import numpy as np
 import pandas as pd
 from fastapi import FastAPI
-from fastapi.encoders import jsonable_encoder
 # BaseModel from Pydantic is used to define data objects.
 from pydantic import BaseModel, ConfigDict
 

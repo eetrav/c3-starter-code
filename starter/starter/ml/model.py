@@ -9,11 +9,9 @@ from typing import List
 
 import numpy as np
 import pandas as pd
-from pandas.api.types import is_string_dtype
 
 from starter.starter.ml.data import PreProcessor
 
-from sklearn.linear_model import LogisticRegressionCV
 from sklearn.metrics import fbeta_score, precision_score, recall_score
 
 from sklearn.model_selection import GridSearchCV
@@ -123,7 +121,7 @@ def compute_sliced_metrics(preprocessor: PreProcessor,
         model (RandomForestClassifier): Trained RandomForestClassifier
 
     Returns:
-        None: Writes a CSV output file of sliced model metrics. 
+        None: Writes a CSV output file of sliced model metrics.
     """
 
     metrics_df = pd.DataFrame(columns=["feature", "value",

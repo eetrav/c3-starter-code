@@ -7,8 +7,7 @@ Date: 12/2023
 
 import numpy as np
 import pandas as pd
-import pytest
-from sklearn.model_selection import train_test_split
+import pytest  # noqa: F401
 from sklearn.ensemble import RandomForestClassifier
 
 from starter.starter.ml.data import PreProcessor
@@ -48,7 +47,7 @@ def test_nonbinary_target_raises_error(preprocessor: PreProcessor):
     Function to test that nonbinary target raises ValueError.
 
     Args:
-        preprocessor (PreProcessor): Instantiated Preprocessor with data 
+        preprocessor (PreProcessor): Instantiated Preprocessor with data
             split into train and test sets.
     """
 
@@ -66,7 +65,7 @@ def check_error_for_missing_cat_column(preprocessor: PreProcessor):
     Function to test that expected columns are present in the dataframe.
 
     Args:
-        preprocessor (PreProcessor): Instantiated Preprocessor with data 
+        preprocessor (PreProcessor): Instantiated Preprocessor with data
             split into train and test sets.
     """
 
@@ -79,7 +78,7 @@ def check_error_for_missing_cat_column(preprocessor: PreProcessor):
 
 def test_model_type(trained_model: RandomForestClassifier):
     """
-    Function to test that the 
+    Function to test that the model is of type RandomForestClassifier.
 
     Args:
         trained_model (RandomForestClassifier): Trained Random Forest model.

@@ -8,8 +8,6 @@ Date: 12/2023
 import joblib
 import pandas as pd
 
-from sklearn.model_selection import train_test_split
-
 from ml.data import PreProcessor
 from ml.model import train_model, inference
 from ml.model import compute_model_metrics, compute_sliced_metrics

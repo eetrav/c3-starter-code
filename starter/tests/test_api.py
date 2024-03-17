@@ -7,8 +7,7 @@ Date: 01/2024
 
 from fastapi.testclient import TestClient
 from starter.main import app
-from starter.main import Person
-import pytest
+import pytest  # noqa: F401
 
 client = TestClient(app)
 

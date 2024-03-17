@@ -22,19 +22,19 @@ class PreProcessor:
         """Instantiate the PreProcessing class to store inputs.
 
         Args:
-            df (pd.DataFrame): Dataframe containing the features and label. 
+            df (pd.DataFrame): Dataframe containing the features and label.
                 Columns in `categorical_features`
-            categorical_features (list): List containing the names of the 
+            categorical_features (list): List containing the names of the
                 categorical features (default=[])
             label (str, optional): Name of the label column in `X`. If None,
                 then an empty array will be returned for y (default=None).
                 Defaults to "".
-            training (bool, optional): Indicator if training mode or 
+            training (bool, optional): Indicator if training mode or
                 inference/validation mode. Defaults to True.
-            encoder ([type], optional): 
-                sklearn.preprocessing._encoders.OneHotEncoder. Defaults to 
+            encoder ([type], optional):
+                sklearn.preprocessing._encoders.OneHotEncoder. Defaults to
                 None, only used if training=False.
-            lb ([type], optional): sklearn.preprocessing._label.LabelBinarizer. 
+            lb ([type], optional): sklearn.preprocessing._label.LabelBinarizer.
                 Defaults to None, only used if training=False.
         """
 
@@ -55,28 +55,30 @@ class PreProcessor:
         Args:
             test_size (float, optional): Percentage of data to use for testing.
                 Defaults to 0.2.
-            stratify_by ([type], optional): Dataframe column to use for 
+            stratify_by ([type], optional): Dataframe column to use for
                 stratification. Defaults to None.
         """
         self.train, self.test = train_test_split(self.df,
                                                  test_size=test_size,
                                                  stratify=stratify_by)
 
-    def process_data(self, feature: str = "", value: str = "") -> Tuple[np.ndarray, np.ndarray]:
+    def process_data(self,
+                     feature: str = "",
+                     value: str = "") -> Tuple[np.ndarray, np.ndarray]:
         """
         Process the data used in the machine learning pipeline.
 
         Processes the data using one hot encoding for the categorical features
-        and a label binarizer for the labels. This can be used in either training
-        or inference/validation.
+        and a label binarizer for the labels. This can be used in either
+        training or inference/validation.
 
         Note: depending on the type of model used, you may want to add in
         functionality that scales the continuous data.
 
 
         Args:
-            feature (str, optional): Optional feature to use for generating 
-                testing data with only one feature-value pair; used to 
+            feature (str, optional): Optional feature to use for generating
+                testing data with only one feature-value pair; used to
                 calculate metrics on sliced data. Defaults to "".
             value (str, optional): Optional value of feature to use in data
                 slicing. Both feature and value must be defined for data
@@ -119,7 +121,8 @@ class PreProcessor:
 
         for col in x_continuous.columns:
             if not is_numeric_dtype(x_continuous[col]):
-                print(col, "was not listed as categorical but is also not numeric!")
+                print(col,
+                      "was not listed as categorical but is also not numeric!")
                 raise ValueError
 
         if self.training is True:

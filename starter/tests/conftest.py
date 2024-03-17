@@ -12,11 +12,11 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.ensemble import RandomForestClassifier
 from starter.starter.ml.data import PreProcessor
-from starter.starter.ml.model import train_model, inference, compute_model_metrics
+from starter.starter.ml.model import train_model, inference, \
+    compute_model_metrics
 
 
 @pytest.fixture(scope='session', name='clean_data')
@@ -71,7 +71,8 @@ def fixture_encoder() -> OneHotEncoder:
 
 
 @pytest.fixture(scope='session', name='preprocessor')
-def fixture_preprocessor(clean_data: pd.DataFrame, cat_features: list) -> PreProcessor:
+def fixture_preprocessor(clean_data: pd.DataFrame,
+                         cat_features: list) -> PreProcessor:
     """
     Fixture to instantiate PreProcessor for model training and testing.
 
@@ -99,7 +100,7 @@ def fixture_preprocessor(clean_data: pd.DataFrame, cat_features: list) -> PrePro
 
 
 @pytest.fixture(scope='session', name='trained_model')
-def fixture_trained_model(preprocessor: PreProcessor) -> RandomForestClassifier:
+def fixture_trained_model(preprocessor: PreProcessor) -> RandomForestClassifier:  # noqa: E501
     """
     Fixture to train model and test output type.
 
@@ -139,7 +140,8 @@ def fixture_testing_model() -> RandomForestClassifier:
 
 
 @pytest.fixture(scope='session', name='test_data')
-def fixture_test_data(preprocessor: PreProcessor, encoder: OneHotEncoder) -> dict:
+def fixture_test_data(preprocessor: PreProcessor,
+                      encoder: OneHotEncoder) -> dict:
     """
     Fixture to create dictionary of testing data for inference and metrics.
 
@@ -162,7 +164,8 @@ def fixture_test_data(preprocessor: PreProcessor, encoder: OneHotEncoder) -> dic
 
 
 @pytest.fixture(scope='session', name='preds')
-def fixture_preds(testing_model: RandomForestClassifier, test_data: dict) -> np.ndarray:
+def fixture_preds(testing_model: RandomForestClassifier,
+                  test_data: dict) -> np.ndarray:
     """
     Fixture to run inference on testing data.
 
